@@ -1,0 +1,28 @@
+{
+  "name": "@yolodev/rollup-config-lerna",
+  "version": "0.1.0",
+  "description": "Config for lerna based monorepos that builds all packages using a single rollup bundler",
+  "author": "Aleksander Heintz <alxandr@alxandr.me>",
+  "license": "MIT",
+  "main": "dist/rollup-config-lerna.js",
+  "module": "dist/rollup-config-lerna.mjs",
+  "typings": "src/index.ts",
+  "directories": {
+    "lib": "dist",
+    "src": "src"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {},
+  "dependencies": {
+    "@lerna/project": "^3.0.0-rc.0"
+  },
+  "peerDependencies": {
+    "rollup": "^0.64.1"
+  }
+}
