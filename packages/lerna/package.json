@@ -20,7 +20,9 @@
   },
   "scripts": {},
   "dependencies": {
-    "@lerna/project": "^3.0.0-rc.0"
+    "@lerna/package": "^3.0.0-rc.0",
+    "@lerna/project": "^3.0.0-rc.0",
+    "read-pkg-up": "^4.0.0"
   },
   "peerDependencies": {
     "rollup": "^0.64.1"

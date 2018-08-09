@@ -24,7 +24,7 @@ like the following in it:
 
 ```js
 // rollup.lerna.js
-export default (pkg, cmdOpts) => {
+export default (project, pkg, cmdOpts) => {
   return {
     input: './src/index.js',
     output: {
