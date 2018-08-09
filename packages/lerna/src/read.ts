@@ -7,10 +7,25 @@ import { rollup } from 'rollup';
 
 type Factory = (pkg: Package, commandOptions: any) => Awaitable<ConfigType>;
 
-export const readPackageConfig = (commandOptions: any) => async (
-  pkg: Package,
-): Promise<ConfigType> => {
-  const configFile = path.resolve(pkg.location, 'rollup.config.js');
+export type PerPackageOptions = {
+  configFile: string | ((pkg: Package) => Awaitable<string>);
+};
+
+const defaultPerPackageOptions: PerPackageOptions = {
+  configFile: 'rollup.config.js',
+};
+
+export const readPackageConfig = (
+  opts: Partial<PerPackageOptions>,
+  commandOptions: any,
+) => async (pkg: Package): Promise<ConfigType> => {
+  const options: PerPackageOptions = { ...defaultPerPackageOptions, ...opts };
+
+  const configFile =
+    typeof options.configFile === 'string'
+      ? path.resolve(pkg.location, options.configFile)
+      : await options.configFile(pkg);
+
   const bundle = await rollup({
     input: configFile,
     external: id =>
@@ -39,8 +54,23 @@ export const readPackageConfig = (commandOptions: any) => async (
   return configFileContent;
 };
 
-const getFactory = async (project: Project): Promise<Factory> => {
-  const configFile = path.resolve(project.rootPath, 'rollup.lerna.js');
+export type CommonConfigOptions = {
+  configFile: string | ((proj: Project) => Awaitable<string>);
+};
+
+const defaultCommonConfigOptions: CommonConfigOptions = {
+  configFile: 'rollup.lerna.js',
+};
+
+const getFactory = async (
+  project: Project,
+  options: CommonConfigOptions,
+): Promise<Factory> => {
+  const configFile =
+    typeof options.configFile === 'string'
+      ? path.resolve(project.rootPath, options.configFile)
+      : await options.configFile(project);
+
   const bundle = await rollup({
     input: configFile,
     external: id =>
@@ -69,11 +99,20 @@ const getFactory = async (project: Project): Promise<Factory> => {
   }
 };
 
-export const readCommonConfig = (project: Project, commandOptions?: any) => {
+export const readCommonConfig = (
+  opts: Partial<CommonConfigOptions>,
+  project: Project,
+  commandOptions?: any,
+) => {
+  const options: CommonConfigOptions = {
+    ...defaultCommonConfigOptions,
+    ...opts,
+  };
+
   let factory: Factory | null = null;
   return async (pkg: Package): Promise<ConfigType> => {
     if (factory === null) {
-      factory = await getFactory(project);
+      factory = await getFactory(project, options);
     }
 
     return factory(pkg, commandOptions);
