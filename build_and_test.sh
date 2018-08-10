@@ -26,16 +26,20 @@ function build-packages-from-root() {
 }
 
 # First bootstrap the build
+echo "Building using bootstrap config"
 build-with-bootstrap
 
 # The build using the build package twice, to make sure the output is valid
+echo "Building using root lerna config"
 build-from-root
 build-from-root
 
 # Build all of the modules separately (if they have rollup.config.js defined) - twice
+echo "Building from each package leaf directory"
 build-from-packages
 build-from-packages
 
 # Build all packages with cwd being root - twice
+echo "Building each package from root (targeted config)"
 build-packages-from-root
 build-packages-from-root
