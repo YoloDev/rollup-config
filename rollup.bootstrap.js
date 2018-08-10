@@ -65,7 +65,9 @@ const perPkg = (_, pkg) => {
 export default async () => {
   let result = [];
   const project = new Project(__dirname);
+  debugger;
   for (const pkg of await project.getPackages()) {
+    debugger;
     const pkgConf = perPkg(project, pkg);
     if (Array.isArray(pkgConf)) {
       result.push(...pkgConf);

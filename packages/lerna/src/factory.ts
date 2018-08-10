@@ -1,44 +1,84 @@
-import { Awaitable, ConfigType, collect } from './collect';
+import {
+  Awaitable,
+  ConfigContext,
+  ConfigError,
+  ConfigType,
+  FromPackageFactory,
+  FromProjectFactory,
+  FromRollupFactory,
+  IConfigFactory,
+  defaultContext,
+  isConfigError,
+} from './types';
 
 import Package from '@lerna/package';
 import Project from '@lerna/project';
+import { collect } from './collect';
 
-export interface IConfigFactory {
-  (commandOptions?: any): Awaitable<ConfigType>;
-  withProject(project: Project, commandOptions?: any): Awaitable<ConfigType>;
-  withPackage(
-    project: Project,
-    pkg: Package,
-    commandOptions?: any,
-  ): Awaitable<ConfigType>;
-}
+const _factory = Symbol.for('rollup:factory');
 
 export const createFactory = (
-  fromPackage: (
-    project: Project,
-    pkg: Package,
-    commandOptions?: any,
-  ) => Awaitable<ConfigType>,
-): IConfigFactory => {
-  const withPackage = (project: Project, pkg: Package, commandOptions?: any) =>
-    fromPackage(project, pkg, commandOptions);
-  const withProject = (project: Project, commandOptions?: any) =>
-    collect(project, pkg => fromPackage(project, pkg, commandOptions));
+  fromRollupFactory: FromRollupFactory,
+  fromProjectFactory: FromProjectFactory,
+  fromPackageFactory: FromPackageFactory,
+) => {
   const factory = ((commandOptions?: any) =>
-    withProject(new Project(), commandOptions)) as IConfigFactory;
+    fromRollupFactory(commandOptions)) as IConfigFactory;
 
   Object.defineProperties(factory, {
-    withProject: { value: withProject },
-    withPackage: { value: withPackage },
+    fromProject: { value: fromProjectFactory },
+    fromPackage: { value: fromPackageFactory },
+    [_factory]: { value: true },
   });
 
   return factory;
 };
 
-export const isFactory = (fn: any): fn is IConfigFactory => {
-  return (
-    typeof fn === 'function' &&
-    typeof fn.withProject === 'function' &&
-    typeof fn.withPackage === 'function'
+export const fromPackage = (
+  fromPackage: (
+    context: ConfigContext,
+    project: Project,
+    pkg: Package,
+    commandOptions?: any,
+  ) => Awaitable<ConfigType | ConfigError>,
+): IConfigFactory => {
+  const fromPackageFactory: FromPackageFactory = (
+    context: ConfigContext,
+    project: Project,
+    pkg: Package,
+    commandOptions?: any,
+  ) => fromPackage(context, project, pkg, commandOptions);
+
+  const fromProjectFactory: FromProjectFactory = (
+    context: ConfigContext,
+    project: Project,
+    commandOptions?: any,
+  ) =>
+    collect(context, project, (context, pkg) =>
+      fromPackage(context, project, pkg, commandOptions),
+    );
+
+  const fromRollupFactory = async (commandOptions?: any) => {
+    const result = await fromProjectFactory(
+      defaultContext,
+      new Project(),
+      commandOptions,
+    );
+
+    if (isConfigError(result)) {
+      throw result;
+    }
+
+    return result;
+  };
+
+  return createFactory(
+    fromRollupFactory,
+    fromProjectFactory,
+    fromPackageFactory,
   );
+};
+
+export const isFactory = (fn: any): fn is IConfigFactory => {
+  return Boolean(fn && fn[_factory]);
 };
