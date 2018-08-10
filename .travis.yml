@@ -1,4 +1,4 @@
 language: node_js
 
 script:
-  - build_and_test.sh
+  - ./build_and_test.sh
