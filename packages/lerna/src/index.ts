@@ -1,34 +1,32 @@
-import {
-  CommonConfigOptions,
-  PerPackageOptions,
-  readCommonConfig,
-  readPackageConfig,
-} from './read';
-import { WithProjectFactory, WithProjectOptions, single } from './single';
+import { CommonConfigOptions, readCommonConfig } from './read-common-config';
+import { ConfigContext, Package, Project } from './types';
+import { PerPackageOptions, readPackageConfig } from './read-package-config';
 
-import Package from '@lerna/package';
-import Project from '@lerna/project';
-import { createFactory } from './factory';
+import { fromPackage } from './factory';
 
 export { delegated } from './delegated';
+export { withPackageInfo } from './with-package';
 
 export const perPackage = (options: Partial<PerPackageOptions> = {}) => {
   const getConfig = readPackageConfig(options);
-  return createFactory((project: Project, pkg: Package, commandOptions?: any) =>
-    getConfig(project, pkg, commandOptions),
+  return fromPackage(
+    (
+      context: ConfigContext,
+      project: Project,
+      pkg: Package,
+      commandOptions?: any,
+    ) => getConfig(context, project, pkg, commandOptions),
   );
 };
 
 export const common = (options: Partial<CommonConfigOptions> = {}) => {
   const getConfig = readCommonConfig(options);
-  return createFactory((project: Project, pkg: Package, commandOptions?: any) =>
-    getConfig(project, pkg, commandOptions),
+  return fromPackage(
+    (
+      context: ConfigContext,
+      project: Project,
+      pkg: Package,
+      commandOptions?: any,
+    ) => getConfig(context, project, pkg, commandOptions),
   );
-};
-
-export const withProject = (
-  factory: WithProjectFactory,
-  options: Partial<WithProjectOptions> = {},
-) => {
-  return single(factory, options);
 };

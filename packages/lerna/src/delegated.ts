@@ -1,45 +1,135 @@
-import { Awaitable } from './collect';
-import { IPackageConfigFactory } from './single';
-import Package from '@lerna/package';
-import Project from '@lerna/project';
-import { getFactory } from './read';
-import { isFactory } from './factory';
+import * as fs from './fs';
+
+import {
+  Awaitable,
+  ConfigContext,
+  FromPackageFactory,
+  FromProjectFactory,
+  FromRollupFactory,
+  IConfigFactory,
+  Package,
+  PackageConfigError,
+  Project,
+  defaultContext,
+  isConfigError,
+} from './types';
+import { createFactory, fromPackage, isFactory } from './factory';
+
+import { getConfigFile } from './get-config';
 import path from 'path';
 import readPkgUp from 'read-pkg-up';
 
 type DelegatedToProjectOptions = {
-  cwd: string | ((commandOptions?: any) => string);
+  cwd: string | ((delegatingFilePath: string, commandOptions?: any) => string);
   configFile: string | ((proj: Project) => Awaitable<string>);
 };
 
 const defaultDelegatedToProjectOptions: DelegatedToProjectOptions = {
-  cwd: () => process.cwd(),
+  cwd: (from: string) => path.dirname(from),
   configFile: 'rollup.config.js',
 };
 
+class PackageDelegatedConfigFileNotFoundError extends PackageConfigError {
+  readonly configFile: string;
+
+  constructor(project: Project, pkg: Package, configFile: string) {
+    super(
+      project,
+      pkg,
+      `Config file ${configFile} delegated to from package ${
+        pkg.name
+      } not found`,
+    );
+
+    this.configFile = configFile;
+    Object.defineProperty(this, 'configFile', { value: configFile });
+  }
+}
+
+class DelegationCycleError extends PackageConfigError {
+  readonly path: ReadonlyArray<string>;
+
+  constructor(project: Project, pkg: Package, path: ReadonlyArray<string>) {
+    super(
+      project,
+      pkg,
+      `Cyrcle detected in delegation for package ${pkg.name}`,
+    );
+
+    const arrCopy = Object.freeze([...path]);
+    this.path = arrCopy;
+    Object.defineProperty(this, 'path', { value: arrCopy });
+  }
+}
+
+class InvalidPackageDelegatedConfigFile extends PackageConfigError {
+  readonly configFile: string;
+
+  constructor(project: Project, pkg: Package, configFile: string) {
+    super(
+      project,
+      pkg,
+      `Config file ${configFile} delegated to from package ${
+        pkg.name
+      } does not expose a valid configuration to delegate to`,
+    );
+
+    this.configFile = configFile;
+    Object.defineProperty(this, 'configFile', { value: configFile });
+  }
+}
+
 export const delegated = (
+  filePath: string,
   opts: Partial<DelegatedToProjectOptions>,
-): IPackageConfigFactory => {
+): IConfigFactory => {
   const options: DelegatedToProjectOptions = {
     ...defaultDelegatedToProjectOptions,
     ...opts,
   };
 
-  const withPackage = (project: Project, pkg: Package) => {
-    throw new Error(
-      `Recursive config loop detected. Package ${pkg.name} (${
-        pkg.location
-      }) is delegating to project (${
-        project.rootPath
-      }) which in turn is calling delegating factory from package again.`,
+  const fromPackage = async (
+    context: ConfigContext,
+    project: Project,
+    pkg: Package,
+    commandOptions?: any,
+  ) => {
+    if (context.delegated.includes(filePath)) {
+      return new DelegationCycleError(project, pkg, context.delegated);
+    }
+
+    const configFile =
+      typeof options.configFile === 'string'
+        ? path.resolve(project.rootPath, options.configFile)
+        : await options.configFile(project);
+
+    if (!(await fs.exists(configFile))) {
+      return new PackageDelegatedConfigFileNotFoundError(
+        project,
+        pkg,
+        configFile,
+      );
+    }
+
+    const configFileContent = await getConfigFile(configFile);
+    if (!isFactory(configFileContent)) {
+      return new InvalidPackageDelegatedConfigFile(project, pkg, configFile);
+    }
+
+    return configFileContent.fromPackage(
+      { ...context, delegated: [...context.delegated, filePath] },
+      project,
+      pkg,
+      commandOptions,
     );
   };
 
-  const factory = (async (commandOptions?: any) => {
+  const fromRollupFactory: FromRollupFactory = async (commandOptions?: any) => {
     const cwd =
       typeof options.cwd === 'string'
         ? options.cwd
-        : options.cwd(commandOptions);
+        : options.cwd(filePath, commandOptions);
+
     const project = new Project(cwd);
     const pkgInfo = await readPkgUp({ cwd });
     const pkg = new Package(
@@ -48,21 +138,49 @@ export const delegated = (
       project.rootPath,
     );
 
-    const factory = await getFactory(project, {
-      configFile: options.configFile,
-    });
-    if (!isFactory(factory)) {
-      throw new Error(
-        `In order for delegating to work, root config must expose an IConfigFactory`,
-      );
+    const result = await fromPackage(
+      defaultContext,
+      project,
+      pkg,
+      commandOptions,
+    );
+    if (isConfigError(result)) {
+      throw result;
     }
 
-    return await factory.withPackage(project, pkg, commandOptions);
-  }) as IPackageConfigFactory;
+    return result;
+  };
 
-  Object.defineProperties(factory, {
-    withPackage: { value: withPackage },
-  });
+  const fromProjectFactory: FromProjectFactory = async (
+    context: ConfigContext,
+    project: Project,
+    commandOptions?: any,
+  ) => {
+    const cwd =
+      typeof options.cwd === 'string'
+        ? options.cwd
+        : options.cwd(filePath, commandOptions);
 
-  return factory;
+    const pkgInfo = await readPkgUp({ cwd });
+    const pkg = new Package(
+      pkgInfo.pkg,
+      path.dirname(pkgInfo.path),
+      project.rootPath,
+    );
+
+    return await fromPackage(context, project, pkg, commandOptions);
+  };
+
+  const fromPackageFactory: FromPackageFactory = (
+    context: ConfigContext,
+    project: Project,
+    pkg: Package,
+    commandOptions?: any,
+  ) => fromPackage(context, project, pkg, commandOptions);
+
+  return createFactory(
+    fromRollupFactory,
+    fromProjectFactory,
+    fromPackageFactory,
+  );
 };
