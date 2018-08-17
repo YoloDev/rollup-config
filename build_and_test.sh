@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+function echoerr() {
+	echo "$@" 1>&2
+}
+
 function build-with-bootstrap() {
 	npx rollup -c ./rollup.bootstrap.js
 }
@@ -18,11 +22,26 @@ function build-from-packages() {
 	done
 }
 
-function build-packages-from-root() {
-	for file in $(find packages -name rollup.config.js); do
-		npx rollup -c "$file"
-		npx rollup -c "$file"
-	done
+function validate-greenkeeper-config() {
+	local err=0
+	local workspaces=$(yarn workspaces info --json | jq '.data | fromjson | keys | length + 1')
+	err=$?
+	if [ $err -ne 0 ]; then
+		echoerr "$workspaces"
+		exit err
+	fi
+
+	local greenkeeperProjects=$(cat ./greenkeeper.json | jq '.groups | map(.packages) | flatten | length')
+	err=$?
+	if [ $err -ne 0 ]; then
+		echoerr "$greenkeeperProjects"
+		exit err
+	fi
+
+	if [ $workspaces -ne $greenkeeperProjects ]; then
+		echoerr "Greenkeeper config is not up to date with workspaces. Found $workspaces workspaces (including root), but greenkeeper is configured for $greenkeeperProjects projects."
+		exit 1
+	fi
 }
 
 # First bootstrap the build
@@ -39,7 +58,6 @@ echo "Building from each package leaf directory"
 build-from-packages
 build-from-packages
 
-# Build all packages with cwd being root - twice
-echo "Building each package from root (targeted config)"
-build-packages-from-root
-build-packages-from-root
+# Validate greenkeeper config
+echo "Check greenkeeper config"
+validate-greenkeeper-config

@@ -31,7 +31,7 @@ const isExternal = pkg => {
 const binSafeName = ({ name, scope }) =>
   scope ? name.substring(scope.length + 1) : name;
 
-export default (_, pkg) => {
+export default pkg => {
   debugger;
   const safeName = binSafeName(pkg.resolved);
   const isPkgExternal = isExternal(pkg);

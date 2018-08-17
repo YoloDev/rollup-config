@@ -1,3 +1,3 @@
-import { common } from './packages/lerna/dist/rollup-config-lerna';
+import { shared } from '@yolodev/rollup-config-lerna';
 
-export default common();
+export default shared();

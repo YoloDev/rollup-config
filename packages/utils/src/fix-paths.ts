@@ -1,6 +1,6 @@
 import { InputOption, OutputOptions, RollupWatchOptions } from 'rollup';
 
-import { mapObj } from './utils';
+import { mapObj } from './map-obj';
 import path from 'path';
 
 const mapInput = (location: string) => (input: InputOption): InputOption => {

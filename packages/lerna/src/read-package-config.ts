@@ -1,19 +1,15 @@
-import * as fs from './fs';
-
 import {
   Awaitable,
-  ConfigContext,
   ConfigError,
   ConfigType,
-  Package,
-  PackageConfigError,
-  Project,
+  getConfigFile,
   isConfigError,
-} from './types';
+  isConfigPipe,
+} from '@yolodev/rollup-config-core';
+import { Package, PackageConfigError, Project } from './types';
+import { fixPaths, fs } from '@yolodev/rollup-config-utils';
 
-import { fixPaths } from './fix-paths';
-import { getConfigFile } from './get-config';
-import { isFactory } from './factory';
+import { IPackageConfigContext } from './context';
 import path from 'path';
 
 export type PerPackageOptions = {
@@ -51,35 +47,34 @@ const fixResult = (
 };
 
 export const readPackageConfig = (opts: Partial<PerPackageOptions>) => async (
-  context: ConfigContext,
-  project: Project,
-  pkg: Package,
-  commandOptions: any,
+  context: IPackageConfigContext,
 ): Promise<ConfigType | ConfigError> => {
   const options: PerPackageOptions = { ...defaultPerPackageOptions, ...opts };
   const configFile =
     typeof options.configFile === 'string'
-      ? path.resolve(pkg.location, options.configFile)
-      : await options.configFile(pkg);
+      ? path.resolve(context.package.location, options.configFile)
+      : await options.configFile(context.package);
 
   if (!(await fs.exists(configFile))) {
-    return new PackageConfigFileNotFoundError(project, pkg, configFile);
+    return new PackageConfigFileNotFoundError(
+      context.project,
+      context.package,
+      configFile,
+    );
   }
 
   const configFileContent = await getConfigFile(configFile);
-  if (isFactory(configFileContent)) {
+  if (isConfigPipe(configFileContent)) {
     return fixResult(
-      await configFileContent.fromPackage(
-        context,
-        project,
-        pkg,
-        commandOptions,
-      ),
-      pkg,
+      await configFileContent.withContext(context),
+      context.package,
     );
   } else if (typeof configFileContent === 'function') {
-    return fixResult(await configFileContent(commandOptions), pkg);
+    return fixResult(
+      await configFileContent(context.commandOptions),
+      context.package,
+    );
   } else {
-    return fixResult(configFileContent, pkg);
+    return fixResult(configFileContent, context.package);
   }
 };

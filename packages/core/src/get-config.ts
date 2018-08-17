@@ -1,5 +1,22 @@
+import { ConfigError } from './error';
 import path from 'path';
 import { rollup } from 'rollup';
+
+const _configCache: unique symbol = Symbol.for('rollup-config:config-cache');
+
+class ReadConfigFileError extends ConfigError {
+  readonly configFile: string;
+
+  constructor(configFile: string, innerError: Error) {
+    super(`Failed to load configuration file ${configFile}`, innerError);
+
+    this.configFile = configFile;
+    Object.defineProperty(this, 'configFile', {
+      value: configFile,
+      enumerable: true,
+    });
+  }
+}
 
 const readConfigFile = async (configFile: string): Promise<any> => {
   const bundle = await rollup({
@@ -30,11 +47,22 @@ const readConfigFile = async (configFile: string): Promise<any> => {
   return await configFileContent;
 };
 
-const configCache = new Map<string, Promise<any>>();
+const configCache = (() => {
+  let cache = (global as any)[_configCache];
+  if (!cache) {
+    cache = new Map<string, Promise<any>>();
+    (global as any)[_configCache] = cache;
+  }
+
+  return cache as Map<string, Promise<any>>;
+})();
+
 export const getConfigFile = (configFile: string): Promise<any> => {
   let cached = configCache.get(configFile);
   if (!cached) {
-    cached = readConfigFile(configFile);
+    cached = readConfigFile(configFile).catch(e =>
+      Promise.reject(new ReadConfigFileError(configFile, e)),
+    );
     configCache.set(configFile, cached);
   }
 

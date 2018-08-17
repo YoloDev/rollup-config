@@ -1,0 +1,1 @@
+# `@yolodev/rollup-config-core`
