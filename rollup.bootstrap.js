@@ -62,7 +62,7 @@ const perPkg = (_, pkg) => {
   };
 };
 
-export default async () => {
+const config = async () => {
   let result = [];
   const project = new Project(__dirname);
   debugger;
@@ -78,3 +78,5 @@ export default async () => {
 
   return result;
 };
+
+export default config();

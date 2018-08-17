@@ -1,65 +1,67 @@
 import {
   Awaitable,
-  ConfigContext,
   ConfigType,
-  FromPackageFactory,
-  FromProjectFactory,
-  FromRollupFactory,
-  IConfigFactory,
-  Package,
-  Project,
-} from './types';
+  IConfigContext,
+  IConfigPipe,
+  RollupConfigFactoryPipe,
+} from '@yolodev/rollup-config-core';
+import {
+  IPackageConfigContext,
+  IProjectConfigContext,
+  withPackage,
+  withProject,
+} from './context';
+import { Package, Project } from './types';
+import {
+  RollupPackageConfigFactoryPipe,
+  RollupProjectConfigFactoryPipe,
+  createPackagePipe,
+} from './pipe';
 
-import { createFactory } from './factory';
 import path from 'path';
 import readPkgUp from 'read-pkg-up';
 
 export type WithPackageFactory = (
-  project: Project,
   pkg: Package,
+  project: Project,
   commandOptions?: any,
 ) => Awaitable<ConfigType>;
 
-export type WithPackageOptions = {
-  cwd: string | ((commandOptions?: any) => string);
-};
+export type WithPackageOptions = {};
 
-const defaultWithProjectOptions: WithPackageOptions = {
-  cwd: () => process.cwd(),
-};
+const defaultWithProjectOptions: WithPackageOptions = {};
 
 export const withPackageInfo = (
   fromPackage: WithPackageFactory,
   opts: Partial<WithPackageOptions>,
-): IConfigFactory => {
+): IConfigPipe => {
   const options: WithPackageOptions = { ...defaultWithProjectOptions, ...opts };
 
-  const fromRollupFactory: FromRollupFactory = async (commandOptions?: any) => {
-    const cwd =
-      typeof options.cwd === 'string'
-        ? options.cwd
-        : options.cwd(commandOptions);
+  const packageConfigPipe: RollupPackageConfigFactoryPipe = (
+    context: IPackageConfigContext,
+  ) => fromPackage(context.package, context.project, context.commandOptions);
 
-    const project = new Project(cwd);
-    const pkgInfo = await readPkgUp({ cwd });
-    const pkg = new Package(
-      pkgInfo.pkg,
-      path.dirname(pkgInfo.path),
-      project.rootPath,
-    );
-
-    return await fromPackage(project, pkg, commandOptions);
-  };
-
-  const fromProjectFactory: FromProjectFactory = async (
-    context: ConfigContext,
-    project: Project,
-    commandOptions?: any,
+  const projectConfigPipe: RollupProjectConfigFactoryPipe = async (
+    context: IProjectConfigContext,
   ) => {
-    const cwd =
-      typeof options.cwd === 'string'
-        ? options.cwd
-        : options.cwd(commandOptions);
+    const { cwd } = context;
+    const pkgInfo = await readPkgUp({ cwd });
+    const pkg = new Package(
+      pkgInfo.pkg,
+      path.dirname(pkgInfo.path),
+      context.project.rootPath,
+    );
+
+    const pkgContext = withPackage(context, pkg);
+    return await packageConfigPipe(pkgContext);
+  };
+
+  const configPipe: RollupConfigFactoryPipe = async (
+    context: IConfigContext,
+  ) => {
+    const { cwd } = context;
+    const project = new Project(cwd);
+    const projectContext = withProject(context, project);
 
     const pkgInfo = await readPkgUp({ cwd });
     const pkg = new Package(
@@ -68,19 +70,9 @@ export const withPackageInfo = (
       project.rootPath,
     );
 
-    return await fromPackage(project, pkg, commandOptions);
+    const pkgContext = withPackage(projectContext, pkg);
+    return await packageConfigPipe(pkgContext);
   };
 
-  const fromPackageFactory: FromPackageFactory = async (
-    context: ConfigContext,
-    project: Project,
-    pkg: Package,
-    commandOptions?: any,
-  ) => fromPackage(project, pkg, commandOptions);
-
-  return createFactory(
-    fromRollupFactory,
-    fromProjectFactory,
-    fromPackageFactory,
-  );
+  return createPackagePipe(configPipe, projectConfigPipe, packageConfigPipe);
 };

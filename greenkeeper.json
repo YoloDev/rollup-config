@@ -3,6 +3,7 @@
     "default": {
       "packages": [
         "package.json",
+        "packages/core/package.json",
         "packages/lerna/package.json"
       ]
     }

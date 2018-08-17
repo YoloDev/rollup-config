@@ -1,17 +1,24 @@
 import {
   Awaitable,
-  ConfigContext,
   ConfigError,
   ConfigType,
+  isConfigError,
+  withCwd,
+} from '@yolodev/rollup-config-core';
+import {
+  IPackageConfigContext,
+  IProjectConfigContext,
+  withPackage,
+} from './context';
+import {
   Package,
   PackageConfigError,
   Project,
   ProjectConfigError,
-  isConfigError,
 } from './types';
+import { fixPaths, toArray } from '@yolodev/rollup-config-utils';
 
 import { RollupWatchOptions } from 'rollup';
-import { toArray } from './utils';
 
 class PackageConfigEmptyError extends PackageConfigError {
   constructor(project: Project, pkg: Package) {
@@ -40,11 +47,12 @@ class ProjectConfigAggregatedError extends ProjectConfigError {
       `Project ${project.manifest.name} (${
         project.rootPath
       }) had configuration errors`,
+      errors[0],
     );
 
     const arrCopy = Object.freeze([...errors]);
     this.errors = arrCopy;
-    Object.defineProperty(this, 'errors', { value: arrCopy });
+    Object.defineProperty(this, 'errors', { value: arrCopy, enumerable: true });
   }
 }
 
@@ -63,20 +71,20 @@ const defaultCollectOptions: CollectOptions = {
 };
 
 export const collect = async (
-  context: ConfigContext,
-  project: Project,
+  context: IProjectConfigContext,
   collector: (
-    context: ConfigContext,
-    pkg: Package,
+    context: IPackageConfigContext,
   ) => Awaitable<ConfigType | ConfigError>,
   opts: Partial<CollectOptions> = {},
 ): Promise<ReadonlyArray<RollupWatchOptions> | ConfigError> => {
   const options: CollectOptions = { ...defaultCollectOptions, ...opts };
   const errors: ConfigError[] = [];
   const result: RollupWatchOptions[] = [];
+  const { project } = context;
 
   for (const pkg of await project.getPackages()) {
-    const pkgConfig = await collector(context, pkg);
+    const pkgContext = withCwd(withPackage(context, pkg), pkg.location);
+    const pkgConfig = await collector(pkgContext);
     if (isConfigError(pkgConfig)) {
       if (options.bail) {
         return pkgConfig;
@@ -84,7 +92,7 @@ export const collect = async (
         errors.push(pkgConfig);
       }
     } else {
-      const arr = toArray(pkgConfig);
+      const arr = toArray(fixPaths(pkgConfig, pkg.location));
       if (arr.length === 0 && options.failIfPackageIsEmpty) {
         return new PackageConfigEmptyError(project, pkg);
       } else {
