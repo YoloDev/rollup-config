@@ -23,8 +23,21 @@ function build-from-packages() {
 }
 
 function validate-greenkeeper-config() {
+	local err=0
 	local workspaces=$(yarn workspaces info --json | jq '.data | fromjson | keys | length + 1')
+	err=$?
+	if [ $err -ne 0 ]; then
+		echoerr "$workspaces"
+		return err
+	fi
+
 	local greenkeeperProjects=$(cat ./greenkeeper.json | jq '.groups | map(.packages) | flatten | length')
+	err=$?
+	if [ $err -ne 0 ]; then
+		echoerr "$greenkeeperProjects"
+		return err
+	fi
+
 	if [ $workspaces -ne $greenkeeperProjects ]; then
 		echoerr "Greenkeeper config is not up to date with workspaces. Found $workspaces workspaces (including root), but greenkeeper is configured for $greenkeeperProjects projects."
 		return 1
