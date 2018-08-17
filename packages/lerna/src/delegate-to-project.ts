@@ -32,9 +32,7 @@ const defaultDelegatedToProjectOptions: DelegatedToProjectOptions = {
   configFile: 'rollup.config.js',
 };
 
-// TODO: dirname should not be needed. It should not be allowed to run from the wrong dir. The package dir should be gotten from context.cwd.
 export const delegateToProject = (
-  dirname: string,
   opts: Partial<DelegatedToProjectOptions>,
 ): IConfigPipe => {
   const options: DelegatedToProjectOptions = {
@@ -58,8 +56,8 @@ export const delegateToProject = (
   ) => {
     const packageDir =
       typeof options.packageDir === 'string'
-        ? options.packageDir
-        : await options.packageDir(dirname);
+        ? path.resolve(context.cwd, options.packageDir)
+        : await options.packageDir(context.cwd);
 
     const project = new Project(packageDir);
     const pkgInfo = await readPkgUp({ cwd: packageDir });
@@ -82,8 +80,8 @@ export const delegateToProject = (
   ) => {
     const packageDir =
       typeof options.packageDir === 'string'
-        ? options.packageDir
-        : await options.packageDir(dirname);
+        ? path.resolve(context.cwd, options.packageDir)
+        : await options.packageDir(context.cwd);
 
     const pkgInfo = await readPkgUp({ cwd: packageDir });
     const pkg = new Package(

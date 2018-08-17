@@ -1,3 +1,3 @@
-import { shared } from '@yolodev/rollup-config-lerna';
+import { smart } from '@yolodev/rollup-config-lerna';
 
-export default shared();
+export default smart();
