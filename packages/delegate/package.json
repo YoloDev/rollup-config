@@ -20,8 +20,8 @@
   },
   "scripts": {},
   "dependencies": {
-    "@yolodev/rollup-config-core": "0.1.0",
-    "@yolodev/rollup-config-utils": "0.1.0"
+    "@yolodev/rollup-config-core": "^0.1.0",
+    "@yolodev/rollup-config-utils": "^0.1.0"
   },
   "peerDependencies": {
     "rollup": "^0.64.1"
