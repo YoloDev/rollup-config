@@ -28,19 +28,19 @@ function validate-greenkeeper-config() {
 	err=$?
 	if [ $err -ne 0 ]; then
 		echoerr "$workspaces"
-		return err
+		exit err
 	fi
 
 	local greenkeeperProjects=$(cat ./greenkeeper.json | jq '.groups | map(.packages) | flatten | length')
 	err=$?
 	if [ $err -ne 0 ]; then
 		echoerr "$greenkeeperProjects"
-		return err
+		exit err
 	fi
 
 	if [ $workspaces -ne $greenkeeperProjects ]; then
 		echoerr "Greenkeeper config is not up to date with workspaces. Found $workspaces workspaces (including root), but greenkeeper is configured for $greenkeeperProjects projects."
-		return 1
+		exit 1
 	fi
 }
 
