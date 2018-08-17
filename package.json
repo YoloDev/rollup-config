@@ -8,7 +8,7 @@
     "@types/npm-package-arg": "^5.1.0",
     "@types/read-pkg-up": "^3.0.1",
     "builtin-modules": "^3.0.0",
-    "lerna": "^3.0.0-rc.0",
+    "lerna": "^3.0.6",
     "rimraf": "^2.6.2",
     "rollup": "^0.64.1",
     "rollup-plugin-typescript2": "^0.16.1",
