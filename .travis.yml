@@ -1,3 +1,5 @@
+dist: trusty
+sudo: false
 language: node_js
 
 before_install: yarn global add greenkeeper-lockfile@2
