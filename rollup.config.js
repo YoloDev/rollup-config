@@ -1,3 +1,3 @@
-import { smart } from '@yolodev/rollup-config-lerna';
+import conventionalLerna from '@yolodev/rollup-config-lerna';
 
-export default smart();
+export default conventionalLerna();

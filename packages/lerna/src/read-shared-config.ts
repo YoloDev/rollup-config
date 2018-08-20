@@ -11,11 +11,11 @@ import { fixPaths, fs } from '@yolodev/rollup-config-utils';
 import { IPackageConfigContext } from './context';
 import path from 'path';
 
-export type CommonConfigOptions = {
+export type SharedConfigOptions = {
   configFile: string | ((proj: Project) => Awaitable<string>);
 };
 
-const defaultCommonConfigOptions: CommonConfigOptions = {
+const defaultSharedConfigOptions: SharedConfigOptions = {
   configFile: 'rollup.lerna.js',
 };
 
@@ -46,11 +46,11 @@ const fixResult = (
   return fixPaths(result, pkg.location);
 };
 
-export const readSharedConfig = (opts: Partial<CommonConfigOptions>) => async (
+export const readSharedConfig = (opts: Partial<SharedConfigOptions>) => async (
   context: IPackageConfigContext,
 ): Promise<ConfigType | ConfigError> => {
-  const options: CommonConfigOptions = {
-    ...defaultCommonConfigOptions,
+  const options: SharedConfigOptions = {
+    ...defaultSharedConfigOptions,
     ...opts,
   };
 
