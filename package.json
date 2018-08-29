@@ -29,8 +29,8 @@
       "initialPrBadge": ":memo: Add badge to enable Greenkeeper",
       "initialPrBadgeOnly": ":memo: Add Greenkeeper badge",
       "initialSubgroupPR": ":arrow_up: Update dependencies for ${group}",
-      "basicPR": ":arrow_up: Update ${dependency} to the latest",
-      "groupPR": ":arrow_up: Update ${dependency} in group ${group} to the latest"
+      "basicPR": ":arrow_up: Update ${dependency} to the latest version",
+      "groupPR": ":arrow_up: Update ${dependency} in group ${group} to the latest version"
     }
   }
 }
