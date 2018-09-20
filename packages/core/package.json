@@ -1,6 +1,6 @@
 {
   "name": "@yolodev/rollup-config-core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Core config mechanisms for rollup bundler",
   "author": "Aleksander Heintz <alxandr@alxandr.me>",
   "license": "MIT",
