@@ -1,4 +1,5 @@
 import builtins from 'builtin-modules';
+import path from 'path';
 import typescript from 'rollup-plugin-typescript2';
 
 const isExternal = pkg => {
@@ -55,7 +56,11 @@ export default pkg => {
         sourcemap: true,
       },
     ],
-    plugins: [typescript()],
+    plugins: [
+      typescript({
+        cacheRoot: path.resolve(__dirname, '.rpt2_cache'),
+      }),
+    ],
     external,
   };
 };

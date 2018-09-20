@@ -16,3 +16,5 @@ export {
 export { withContext } from './with-context';
 export { getConfigFile } from './get-config';
 export { Awaitable, ConfigType, RollupConfigFactory } from './types';
+export { choose } from './choose';
+export { combine } from './combine';

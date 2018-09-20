@@ -1,3 +1,3 @@
-import { shared } from '@yolodev/rollup-config-lerna';
+import conventionalLerna from '@yolodev/rollup-config-lerna';
 
-export default shared();
+export default conventionalLerna();

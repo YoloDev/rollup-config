@@ -4,6 +4,12 @@ function echoerr() {
 	echo "$@" 1>&2
 }
 
+function clean() {
+	for file in $(find packages -name rollup.config.js); do
+		rm -rf "$(dirname $file)/dist"
+	done
+}
+
 function build-with-bootstrap() {
 	npx rollup -c ./rollup.bootstrap.js
 }
@@ -44,7 +50,10 @@ function validate-greenkeeper-config() {
 	fi
 }
 
-# First bootstrap the build
+# First clean
+clean
+
+# Then bootstrap the build
 echo "Building using bootstrap config"
 build-with-bootstrap
 
