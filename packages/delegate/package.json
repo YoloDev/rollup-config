@@ -24,6 +24,6 @@
     "@yolodev/rollup-config-utils": "^0.1.0"
   },
   "peerDependencies": {
-    "rollup": "^0.68.2"
+    "rollup": "^1.0.0"
   }
 }
