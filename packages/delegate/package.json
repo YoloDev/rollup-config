@@ -1,6 +1,6 @@
 {
   "name": "@yolodev/rollup-config-delegate",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Config for lerna based monorepos that builds all packages using a single rollup bundler",
   "author": "Aleksander Heintz <alxandr@alxandr.me>",
   "license": "MIT",
@@ -20,8 +20,8 @@
   },
   "scripts": {},
   "dependencies": {
-    "@yolodev/rollup-config-core": "^0.1.1",
-    "@yolodev/rollup-config-utils": "^0.1.0"
+    "@yolodev/rollup-config-core": "^0.2.0",
+    "@yolodev/rollup-config-utils": "^0.2.0"
   },
   "peerDependencies": {
     "rollup": "^1.0.0"
