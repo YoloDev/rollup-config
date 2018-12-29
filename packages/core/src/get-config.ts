@@ -21,12 +21,15 @@ class ReadConfigFileError extends ConfigError {
 const readConfigFile = async (configFile: string): Promise<any> => {
   const bundle = await rollup({
     input: configFile,
+    treeshake: false,
     external: id =>
       (id[0] !== '.' && !path.isAbsolute(id)) ||
       id.slice(-5, id.length) === '.json',
   });
 
-  const { code } = await bundle.generate({ format: 'cjs' });
+  const {
+    output: [{ code }],
+  } = await bundle.generate({ format: 'cjs' });
   const defaultLoader = require.extensions['.js'];
   require.extensions['.js'] = (module, filename) => {
     if (filename === configFile) {
@@ -37,7 +40,7 @@ const readConfigFile = async (configFile: string): Promise<any> => {
   };
 
   delete require.cache[configFile];
-  let configFileContent = require(configFile);
+  let configFileContent = await require(configFile);
   require.extensions['.js'] = defaultLoader;
 
   if (configFileContent.__esModule) {

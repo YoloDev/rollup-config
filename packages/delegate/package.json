@@ -5,7 +5,7 @@
   "author": "Aleksander Heintz <alxandr@alxandr.me>",
   "license": "MIT",
   "main": "dist/rollup-config-delegate.js",
-  "module": "dist/rollup-config-delegate.mjs",
+  "module": "dist/rollup-config-delegate.esm.js",
   "typings": "src/index.ts",
   "directories": {
     "lib": "dist",

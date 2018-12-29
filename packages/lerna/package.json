@@ -5,7 +5,7 @@
   "author": "Aleksander Heintz <alxandr@alxandr.me>",
   "license": "MIT",
   "main": "dist/rollup-config-lerna.js",
-  "module": "dist/rollup-config-lerna.mjs",
+  "module": "dist/rollup-config-lerna.esm.js",
   "typings": "src/index.ts",
   "directories": {
     "lib": "dist",

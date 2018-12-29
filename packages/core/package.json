@@ -5,7 +5,7 @@
   "author": "Aleksander Heintz <alxandr@alxandr.me>",
   "license": "MIT",
   "main": "dist/rollup-config-core.js",
-  "module": "dist/rollup-config-core.mjs",
+  "module": "dist/rollup-config-core.esm.js",
   "typings": "src/index.ts",
   "directories": {
     "lib": "dist",
