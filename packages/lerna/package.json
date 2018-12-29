@@ -5,7 +5,7 @@
   "author": "Aleksander Heintz <alxandr@alxandr.me>",
   "license": "MIT",
   "main": "dist/rollup-config-lerna.js",
-  "module": "dist/rollup-config-lerna.mjs",
+  "module": "dist/rollup-config-lerna.esm.js",
   "typings": "src/index.ts",
   "directories": {
     "lib": "dist",
@@ -29,6 +29,6 @@
     "read-pkg-up": "^4.0.0"
   },
   "peerDependencies": {
-    "rollup": "^0.68.2"
+    "rollup": "^1.0.0"
   }
 }

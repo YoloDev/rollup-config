@@ -5,7 +5,7 @@
   "author": "Aleksander Heintz <alxandr@alxandr.me>",
   "license": "MIT",
   "main": "dist/rollup-config-core.js",
-  "module": "dist/rollup-config-core.mjs",
+  "module": "dist/rollup-config-core.esm.js",
   "typings": "src/index.ts",
   "directories": {
     "lib": "dist",
@@ -24,6 +24,6 @@
     "es6-error": "^4.1.1"
   },
   "peerDependencies": {
-    "rollup": "^0.68.2"
+    "rollup": "^1.0.0"
   }
 }

@@ -52,7 +52,7 @@ export default pkg => {
       },
       {
         format: 'es',
-        file: `./dist/${safeName}.mjs`,
+        file: `./dist/${safeName}.esm.js`,
         sourcemap: true,
       },
     ],

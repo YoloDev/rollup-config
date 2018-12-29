@@ -53,7 +53,7 @@ const perPkg = (_, pkg) => {
       },
       {
         format: 'es',
-        file: path.resolve(pkg.location, `./dist/${safeName}.mjs`),
+        file: path.resolve(pkg.location, `./dist/${safeName}.esm.js`),
         sourcemap: true,
       },
     ],
