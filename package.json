@@ -9,7 +9,7 @@
     "@types/read-pkg-up": "3.0.1",
     "builtin-modules": "3.0.0",
     "lerna": "3.8.1",
-    "rimraf": "2.6.2",
+    "rimraf": "2.6.3",
     "rollup": "1.0.0",
     "rollup-plugin-typescript2": "0.18.1",
     "typescript": "3.2.2"
