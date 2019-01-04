@@ -20,6 +20,6 @@
   },
   "scripts": {},
   "peerDependencies": {
-    "rollup": "^1.0.0"
+    "rollup": "^1.0.1"
   }
 }
