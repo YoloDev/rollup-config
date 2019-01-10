@@ -2,12 +2,12 @@
 # yarn lockfile v1
 
 
-"@lerna/add@3.10.1":
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/@lerna/add/-/add-3.10.1.tgz#9668a696cafe1056d27f8fe4a51c6dc89cbad5ae"
-  integrity sha512-H6rPK13BWC6Hf108C/zoXsg+nf1/osp3PWP1k9DsulLr1OWMrpFqFNa2StQHqbbPL2K0FDFeoswcOL6AxpZRrg==
+"@lerna/add@3.10.4":
+  version "3.10.4"
+  resolved "https://registry.yarnpkg.com/@lerna/add/-/add-3.10.4.tgz#34a7f5cababa7d62825c57b1d0ff6966a65078b5"
+  integrity sha512-KEnyJ0+OR3ZQo5W0CXQQHiQspOKNbS9EZEzUhfvCPiBifScAbeG8kT+BT3utBLAy7KOMPeKq7sLeL4jO/CsC+g==
   dependencies:
-    "@lerna/bootstrap" "3.10.1"
+    "@lerna/bootstrap" "3.10.4"
     "@lerna/command" "3.10.0"
     "@lerna/filter-options" "3.10.1"
     "@lerna/npm-conf" "3.7.0"
@@ -26,10 +26,10 @@
     "@lerna/validation-error" "3.6.0"
     libnpm "^2.0.1"
 
-"@lerna/bootstrap@3.10.1":
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/@lerna/bootstrap/-/bootstrap-3.10.1.tgz#53d349ae9971505ddd3e637359a64eebb8a18a2a"
-  integrity sha512-tI6Vt3ewW1Z9Yfv3pFQG0gmbuI8cjo578Ohg5KJQSrMRF+Bm4uuSxJiJ+aqz0xz2OnRT48YYO3GOIJTlhi5wXA==
+"@lerna/bootstrap@3.10.4":
+  version "3.10.4"
+  resolved "https://registry.yarnpkg.com/@lerna/bootstrap/-/bootstrap-3.10.4.tgz#7d9cfa50b55c7afbdd3da7a76171681aade15d59"
+  integrity sha512-TYKGFoHBxiWHlfsX3SckUlbg7PnLTgwxckPnA9eg/douE3w8IO5CzcrZXq9z9ofMd7CIgFpQxgfZofDd4lcHfQ==
   dependencies:
     "@lerna/batch-packages" "3.10.0"
     "@lerna/command" "3.10.0"
@@ -434,10 +434,10 @@
     inquirer "^6.2.0"
     libnpm "^2.0.1"
 
-"@lerna/publish@3.10.1":
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/@lerna/publish/-/publish-3.10.1.tgz#fe994503c0917730042c39a45121e3f3ca4a223f"
-  integrity sha512-wDWcXW/7n8M+cnVHM/Gcr8+p1GpN1cOmHFUa8ykVFAeVnAW/nDd7qAeg4pOsOR5uxCrpY9IuWQQVrip0BJwl1w==
+"@lerna/publish@3.10.3":
+  version "3.10.3"
+  resolved "https://registry.yarnpkg.com/@lerna/publish/-/publish-3.10.3.tgz#4a205ba85174386e9673f69b095f38df73fd16ed"
+  integrity sha512-VhcDMxPilXTeaVS+H+mJOd9a6xPa8B1Rgkd6yIptX7flP1FLrt94P7E8g+2n+KkG+pk3INmyg4w/g43KYzjVaA==
   dependencies:
     "@lerna/batch-packages" "3.10.0"
     "@lerna/check-working-tree" "3.10.0"
@@ -2407,13 +2407,13 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
-lerna@3.10.1:
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/lerna/-/lerna-3.10.1.tgz#9a76f1264796a3115ccbc5177f2330fb50c59184"
-  integrity sha512-zZ1pVy+aQTmPA4ezaIRALCMAc06TjawcB7PfpSHrlhWxQwv30rq7Fd26+cED5FTbDxmJYyD7a2vdaRlNKZW6bw==
+lerna@3.10.4:
+  version "3.10.4"
+  resolved "https://registry.yarnpkg.com/lerna/-/lerna-3.10.4.tgz#1c292b9e3f652f48a1baa26fcd02f835e7c9cf30"
+  integrity sha512-d9LXfipcf1TwAAN9lADry1wQMgjQP3cigLWNBg9TMHeLfnLrZfnk8MvPF2YXCrxGjUAnU/2MFeh0RWoGL49usg==
   dependencies:
-    "@lerna/add" "3.10.1"
-    "@lerna/bootstrap" "3.10.1"
+    "@lerna/add" "3.10.4"
+    "@lerna/bootstrap" "3.10.4"
     "@lerna/changed" "3.10.1"
     "@lerna/clean" "3.10.1"
     "@lerna/cli" "3.10.0"
@@ -2424,7 +2424,7 @@ lerna@3.10.1:
     "@lerna/init" "3.10.0"
     "@lerna/link" "3.10.0"
     "@lerna/list" "3.10.1"
-    "@lerna/publish" "3.10.1"
+    "@lerna/publish" "3.10.3"
     "@lerna/run" "3.10.1"
     "@lerna/version" "3.10.1"
     import-local "^1.0.0"
