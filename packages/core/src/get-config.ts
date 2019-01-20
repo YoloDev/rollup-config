@@ -1,4 +1,5 @@
 import { ConfigError } from './error';
+import { IConfigContext } from './context';
 import path from 'path';
 import { rollup } from 'rollup';
 
@@ -7,8 +8,12 @@ const _configCache: unique symbol = Symbol.for('rollup-config:config-cache');
 class ReadConfigFileError extends ConfigError {
   readonly configFile: string;
 
-  constructor(configFile: string, innerError: Error) {
-    super(`Failed to load configuration file ${configFile}`, innerError);
+  constructor(configFile: string, context: IConfigContext, innerError: Error) {
+    super(
+      `Failed to load configuration file ${configFile}`,
+      context,
+      innerError,
+    );
 
     this.configFile = configFile;
     Object.defineProperty(this, 'configFile', {
@@ -60,11 +65,14 @@ const configCache = (() => {
   return cache as Map<string, Promise<any>>;
 })();
 
-export const getConfigFile = (configFile: string): Promise<any> => {
+export const getConfigFile = (
+  configFile: string,
+  context: IConfigContext,
+): Promise<any> => {
   let cached = configCache.get(configFile);
   if (!cached) {
     cached = readConfigFile(configFile).catch(e =>
-      Promise.reject(new ReadConfigFileError(configFile, e)),
+      Promise.reject(new ReadConfigFileError(configFile, context, e)),
     );
     configCache.set(configFile, cached);
   }

@@ -2,21 +2,25 @@ import {
   Awaitable,
   ConfigError,
   IConfigContext,
-  IConfigPipe,
-  RollupConfigFactoryPipe,
-  fromPipeFunction,
+  createMiddleware,
+  createPipe,
   getConfigFile,
-  isConfigPipe,
 } from '@yolodev/rollup-config-core';
+import {
+  NameKind,
+  createNameFactory,
+  createNamed,
+  fs,
+} from '@yolodev/rollup-config-utils';
 import { isDelegatedContext, withDelegations } from './context';
 
-import { fs } from '@yolodev/rollup-config-utils';
+import path from 'path';
 
 type DelegatedToOptions = {
   configFile: string | ((context: IConfigContext) => Awaitable<string>);
 };
 
-const defaultDelegatedToProjectOptions: DelegatedToOptions = {
+const defaultDelegatedToOptions: DelegatedToOptions = {
   configFile: 'rollup.config.js',
 };
 
@@ -24,11 +28,16 @@ class CircularConfigDelegationError extends ConfigError {
   readonly delegatedTo: string;
   readonly path: ReadonlyArray<string>;
 
-  constructor(delegatedTo: string, path: ReadonlyArray<string>) {
+  constructor(
+    delegatedTo: string,
+    path: ReadonlyArray<string>,
+    context: IConfigContext,
+  ) {
     super(
       `Circular config delegation detected: ${[...path, delegatedTo]
         .map(n => `'${n}'`)
         .join(' -> ')}`,
+      context,
     );
 
     this.delegatedTo = delegatedTo;
@@ -43,62 +52,76 @@ class CircularConfigDelegationError extends ConfigError {
 class DelegatedConfigNotFoundError extends ConfigError {
   readonly configFile: string;
 
-  constructor(configFile: string) {
-    super(`Config file '${configFile}' was not found.`);
+  constructor(configFile: string, context: IConfigContext) {
+    super(`Config file '${configFile}' was not found.`, context);
 
     this.configFile = configFile;
     Object.defineProperty(this, 'configFile', { value: configFile });
   }
 }
 
-class DelegatedConfigIsNotValidError extends ConfigError {
-  readonly configFile: string;
+// class DelegatedConfigIsNotValidError extends ConfigError {
+//   readonly configFile: string;
 
-  constructor(configFile: string) {
-    super(
-      `Config file '${configFile}' is not a valid configuration pipe. It needs to have a default export that is a IConfigPipe.`,
-    );
+//   constructor(configFile: string) {
+//     super(
+//       `Config file '${configFile}' is not a valid configuration pipe. It needs to have a default export that is a IConfigPipe.`,
+//     );
 
-    this.configFile = configFile;
-    Object.defineProperty(this, 'configFile', { value: configFile });
-  }
-}
+//     this.configFile = configFile;
+//     Object.defineProperty(this, 'configFile', { value: configFile });
+//   }
+// }
 
-export const delegate = (opts: Partial<DelegatedToOptions>): IConfigPipe => {
-  const options: DelegatedToOptions = {
-    ...defaultDelegatedToProjectOptions,
-    ...opts,
-  };
-
-  const pipe: RollupConfigFactoryPipe = async (context: IConfigContext) => {
-    const delegateTo =
-      typeof options.configFile === 'string'
+export const delegate = (opts: Partial<DelegatedToOptions> = {}) => {
+  const options = { ...defaultDelegatedToOptions, ...opts };
+  const optsName = createNamed((kind = NameKind.Simple) => {
+    if (kind === NameKind.Simple)
+      return typeof options.configFile === 'string'
         ? options.configFile
-        : await options.configFile(context);
+        : '<config-file-fn>';
+    if (kind === NameKind.Compact) return JSON.stringify(options);
+    return JSON.stringify(options, null, 2);
+  });
+  const nameFactory = createNameFactory('delegate', [optsName]);
 
-    let newDelegatedFrom = [delegateTo];
-    if (isDelegatedContext(context)) {
-      const { delegatedFrom } = context;
-      if (delegatedFrom.includes(delegateTo)) {
-        return new CircularConfigDelegationError(delegateTo, delegatedFrom);
+  return createMiddleware(nameFactory, innerPipe =>
+    createPipe(nameFactory, async (cmdOpts, inner, context) => {
+      const delegateTo = path.resolve(
+        context.cwd,
+        typeof options.configFile === 'string'
+          ? options.configFile
+          : await options.configFile(context),
+      );
+
+      let newDelegatedFrom = Object.freeze([delegateTo]);
+      if (isDelegatedContext(context)) {
+        const { delegatedFrom } = context;
+        if (delegatedFrom.includes(delegateTo)) {
+          throw new CircularConfigDelegationError(
+            delegateTo,
+            delegatedFrom,
+            context,
+          );
+        }
+
+        newDelegatedFrom = Object.freeze([...delegatedFrom, delegateTo]);
       }
 
-      newDelegatedFrom = [...delegatedFrom, delegateTo];
-    }
+      const delegatedContext = withDelegations(context, newDelegatedFrom);
 
-    const delegatedContext = withDelegations(context, newDelegatedFrom);
+      if (!(await fs.exists(delegateTo))) {
+        throw new DelegatedConfigNotFoundError(delegateTo, delegatedContext);
+      }
 
-    if (!(await fs.exists(delegateTo))) {
-      return new DelegatedConfigNotFoundError(delegateTo);
-    }
+      const config = await getConfigFile(delegateTo, delegatedContext);
+      const innerResult = await innerPipe(cmdOpts, inner, delegatedContext);
 
-    const config = await getConfigFile(delegateTo);
-    if (!isConfigPipe(config)) {
-      return new DelegatedConfigIsNotValidError(delegateTo);
-    }
+      if (typeof config === 'function') {
+        return await config(cmdOpts, innerResult, delegatedContext);
+      }
 
-    return await config.withContext(delegatedContext);
-  };
-
-  return fromPipeFunction(pipe);
+      return config;
+    }),
+  );
 };

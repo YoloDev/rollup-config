@@ -6,10 +6,12 @@ import {
 const _delegationContext: unique symbol = Symbol.for(
   'rollup-config:delegation-context',
 );
+
 export interface IDelegatedConfigContext extends IConfigContext {
   readonly delegatedFrom: ReadonlyArray<string>;
   readonly [_delegationContext]: true;
 }
+
 export const withDelegations = (
   context: IConfigContext,
   delegatedFrom: ReadonlyArray<string>,
@@ -18,6 +20,7 @@ export const withDelegations = (
     delegatedFrom,
     [_delegationContext]: true,
   });
+
 export const isDelegatedContext = (
   ctx: IConfigContext,
 ): ctx is IDelegatedConfigContext => Boolean((ctx as any)[_delegationContext]);

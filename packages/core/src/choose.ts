@@ -1,42 +1,48 @@
-import {
-  ConfigError,
-  isConfigError,
-} from '@yolodev/rollup-config-core/src/error';
-import { IConfigPipe, fromPipeFunction } from './pipe';
+import { AggregatedConfigError, ConfigError, isConfigError } from './error';
+
+import { IConfigContext } from './context';
+import { RollupConfigMiddleware } from './types';
+import { createMiddleware } from './middleware';
+import { createNameFactory } from '@yolodev/rollup-config-utils';
+import { createPipe } from './pipe';
 
 class EmptyChooseError extends ConfigError {
-  constructor() {
-    super('choose() was called with no arguments');
+  constructor(context: IConfigContext) {
+    super('choose() was called with no arguments', context);
   }
 }
 
-class AllChoisesFailedError extends ConfigError {
-  readonly errors: ReadonlyArray<ConfigError>;
-
-  constructor(errors: ReadonlyArray<ConfigError>) {
-    super('All choose alternatives failed', errors[0]);
-
-    const arrCopy = Object.freeze([...errors]);
-    this.errors = arrCopy;
-    Object.defineProperty(this, 'errors', { value: arrCopy });
+class AllChoicesFailedError extends AggregatedConfigError {
+  constructor(errors: ReadonlyArray<ConfigError>, context: IConfigContext) {
+    super(errors, context, 'All choices failed');
   }
 }
 
-export const choose = (...pipes: IConfigPipe[]): IConfigPipe =>
-  fromPipeFunction(async context => {
-    if (pipes.length === 0) {
-      return new EmptyChooseError();
-    }
+export const choose = (...mws: RollupConfigMiddleware[]) => {
+  const nameFactory = createNameFactory('choose', mws);
 
-    let errors: ConfigError[] = [];
-    for (const pipe of pipes) {
-      const result = await pipe.withContext(context);
-      if (!isConfigError(result)) {
-        return result;
-      } else {
-        errors.push(result);
+  return createMiddleware(nameFactory, innerPipe =>
+    createPipe(nameFactory, async (cmdOpts, inner, context) => {
+      if (mws.length === 0) {
+        throw new EmptyChooseError(context);
       }
-    }
 
-    return new AllChoisesFailedError(errors);
-  });
+      const errors: ConfigError[] = [];
+
+      for (const mw of mws) {
+        const mwPipe = mw(innerPipe);
+        try {
+          return await mwPipe(cmdOpts, inner, context);
+        } catch (e) {
+          if (!isConfigError(e)) {
+            throw e;
+          }
+
+          errors.push(e);
+        }
+      }
+
+      throw new AllChoicesFailedError(errors, context);
+    }),
+  );
+};

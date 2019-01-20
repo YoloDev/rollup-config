@@ -6,7 +6,8 @@
         "packages/core/package.json",
         "packages/lerna/package.json",
         "packages/delegate/package.json",
-        "packages/utils/package.json"
+        "packages/utils/package.json",
+        "packages/external-deps/package.json"
       ]
     }
   }

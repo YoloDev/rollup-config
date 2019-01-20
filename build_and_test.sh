@@ -11,26 +11,26 @@ function clean() {
 }
 
 function build-with-bootstrap() {
-	npx rollup -c ./rollup.bootstrap.js
+	pnpx rollup -c ./rollup.bootstrap.js
 }
 
 function build-from-root() {
-	npx rollup -c ./rollup.config.js
+	pnpx rollup -c ./rollup.config.js
 }
 
 function build-from-packages() {
 	for file in $(find packages -name rollup.config.js); do
 		pushd $(dirname $file)
 		file=$(basename $file)
-		npx rollup -c "$file"
-		npx rollup -c "$file"
+		pnpx rollup -c "$file"
+		pnpx rollup -c "$file"
 		popd
 	done
 }
 
 function validate-greenkeeper-config() {
 	local err=0
-	local workspaces=$(yarn workspaces info --json | jq '.data | fromjson | keys | length + 1')
+	local workspaces=$(./get-packages.js | jq 'length + 1')
 	err=$?
 	if [ $err -ne 0 ]; then
 		echoerr "$workspaces"

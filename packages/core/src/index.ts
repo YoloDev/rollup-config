@@ -1,20 +1,14 @@
 export { ConfigError, isConfigError } from './error';
+export { isConfigPipe, createPipe } from './pipe';
 export {
-  isConfigPipe,
-  createConfigPipe,
-  IConfigPipe,
-  RollupConfigFactoryPipe,
-  fromPipeFunction,
-} from './pipe';
-export {
-  isContext,
   createChildContext,
   createContext,
-  withCwd,
   IConfigContext,
+  isContext,
+  withCwd,
 } from './context';
-export { withContext } from './with-context';
 export { getConfigFile } from './get-config';
-export { Awaitable, ConfigType, RollupConfigFactory } from './types';
+export { Awaitable, ConfigType } from './types';
 export { choose } from './choose';
-export { combine } from './combine';
+export { createMiddleware } from './middleware';
+export { passThrough } from './pass-through';

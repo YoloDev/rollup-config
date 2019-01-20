@@ -1,49 +1,38 @@
-import { Awaitable, ConfigType, RollupConfigFactory } from './types';
-import { ConfigError, isConfigError } from './error';
-import { IConfigContext, createContext } from './context';
+import {
+  ConfigType,
+  RollupConfigFunction,
+  RollupConfigPipe,
+  _pipe,
+} from './types';
+import { IConfigContext, addStackFrame, createContext } from './context';
+import { NameFactory, NameKind, _named } from '@yolodev/rollup-config-utils';
 
-import { fixPaths } from '@yolodev/rollup-config-utils';
-
-const _pipe: unique symbol = Symbol.for('rollup-config:pipe');
-
-export type RollupConfigFactoryPipe = (
-  context: IConfigContext,
-) => Awaitable<ConfigType | ConfigError>;
-
-export interface IConfigPipe extends RollupConfigFactory {
-  readonly withContext: RollupConfigFactoryPipe;
-  readonly [_pipe]: true;
-}
-
-export const createConfigPipe = (
-  rollupFactory: RollupConfigFactory,
-  configPipe: RollupConfigFactoryPipe,
-): IConfigPipe => {
-  const part = ((commandOptions?: any) =>
-    rollupFactory(commandOptions)) as IConfigPipe;
-  Object.defineProperties(part, {
-    withContext: { value: configPipe, configurable: false },
-    [_pipe]: { value: true, configurable: false },
-  });
-
-  return part;
-};
-
-export const isConfigPipe = (o: any): o is IConfigPipe =>
+export const isConfigPipe = (o: any): o is RollupConfigPipe =>
   Boolean(o && o[_pipe]);
 
-export const fromPipeFunction = (
-  configPipe: RollupConfigFactoryPipe,
-): IConfigPipe => {
-  const factory: RollupConfigFactory = async (commandOptions?: any) => {
-    const context = createContext(commandOptions);
-    const result = await configPipe(context);
-    if (isConfigError(result)) {
-      throw result;
-    }
+export const createPipe = (
+  nameFactory: NameFactory,
+  fn: RollupConfigFunction,
+) => {
+  const name = nameFactory(NameKind.Simple);
+  const pipe = (async (
+    commandOptions: any,
+    inner?: ConfigType,
+    context?: IConfigContext,
+  ) => {
+    const innerConfig = inner || [];
+    const newContext = addStackFrame(context || createContext(), pipe);
 
-    return fixPaths(result, context.cwd);
-  };
+    return await fn(commandOptions, innerConfig, newContext);
+  }) as RollupConfigPipe;
 
-  return createConfigPipe(factory, configPipe);
+  Object.defineProperties(pipe, {
+    [_pipe]: { value: true, configurable: false, enumerable: false },
+    [_named]: { value: nameFactory, configurable: false, enumerable: false },
+    name: { value: name, configurable: true, enumerable: false },
+  });
+
+  return pipe;
 };
+
+export const empty = createPipe(() => '<empty>', () => []);

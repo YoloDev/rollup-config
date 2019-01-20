@@ -1,3 +1,5 @@
+import { IPackageConfigContext, IProjectConfigContext } from './context';
+
 import { ConfigError } from '@yolodev/rollup-config-core';
 import Package from '@lerna/package';
 import Project from '@lerna/project';
@@ -5,12 +7,16 @@ import Project from '@lerna/project';
 export class ProjectConfigError extends ConfigError {
   readonly project: Project;
 
-  constructor(project: Project, msg: string, innerError: Error | null = null) {
-    super(msg, innerError);
+  constructor(
+    msg: string,
+    context: IProjectConfigContext,
+    innerError: Error | null = null,
+  ) {
+    super(msg, context, innerError);
 
-    this.project = project;
+    this.project = context.project;
     Object.defineProperty(this, 'project', {
-      value: project,
+      value: context.project,
       enumerable: true,
     });
   }
@@ -20,16 +26,15 @@ export class PackageConfigError extends ProjectConfigError {
   readonly package: Package;
 
   constructor(
-    project: Project,
-    pkg: Package,
     msg: string,
+    context: IPackageConfigContext,
     innerError: Error | null = null,
   ) {
-    super(project, msg, innerError);
+    super(msg, context, innerError);
 
-    this.package = pkg;
+    this.package = context.package;
     Object.defineProperty(this, 'package', {
-      value: pkg,
+      value: context.package,
       enumerable: true,
     });
   }

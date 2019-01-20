@@ -1,5 +1,4 @@
 import {
-  Awaitable,
   ConfigError,
   ConfigType,
   isConfigError,
@@ -18,21 +17,25 @@ import {
 } from './types';
 import { fixPaths, toArray } from '@yolodev/rollup-config-utils';
 
+import { Awaitable } from '@yolodev/rollup-config-core/src/types';
 import { RollupWatchOptions } from 'rollup';
 
 class PackageConfigEmptyError extends PackageConfigError {
-  constructor(project: Project, pkg: Package) {
-    super(project, pkg, `Package ${pkg.name} returned an empty configuration`);
+  constructor(context: IPackageConfigContext) {
+    super(
+      `Package ${context.package.name} returned an empty configuration`,
+      context,
+    );
   }
 }
 
 class ProjectConfigEmptyError extends ProjectConfigError {
-  constructor(project: Project) {
+  constructor(context: IProjectConfigContext) {
     super(
-      project,
-      `Project ${project.manifest.name} (${
-        project.rootPath
+      `Project ${context.project.manifest.name} (${
+        context.project.rootPath
       }) returned an empty configuration`,
+      context,
     );
   }
 }
@@ -41,12 +44,15 @@ class ProjectConfigEmptyError extends ProjectConfigError {
 class ProjectConfigAggregatedError extends ProjectConfigError {
   readonly errors: ReadonlyArray<ConfigError>;
 
-  constructor(project: Project, errors: ReadonlyArray<ConfigError>) {
+  constructor(
+    errors: ReadonlyArray<ConfigError>,
+    context: IProjectConfigContext,
+  ) {
     super(
-      project,
-      `Project ${project.manifest.name} (${
-        project.rootPath
+      `Project ${context.project.manifest.name} (${
+        context.project.rootPath
       }) had configuration errors`,
+      context,
       errors[0],
     );
 
@@ -71,43 +77,54 @@ const defaultCollectOptions: CollectOptions = {
 };
 
 export const collect = async (
+  cmdOpts: any,
+  inner: ConfigType,
   context: IProjectConfigContext,
-  collector: (
+  innerPipe: (
+    commandOptions: any,
+    inner: ConfigType,
     context: IPackageConfigContext,
-  ) => Awaitable<ConfigType | ConfigError>,
+  ) => Awaitable<ConfigType>,
   opts: Partial<CollectOptions> = {},
-): Promise<ReadonlyArray<RollupWatchOptions> | ConfigError> => {
-  const options: CollectOptions = { ...defaultCollectOptions, ...opts };
+) => {
+  const options = { ...defaultCollectOptions, ...opts };
   const errors: ConfigError[] = [];
-  const result: RollupWatchOptions[] = [];
+  const results: RollupWatchOptions[] = [];
   const { project } = context;
 
   for (const pkg of await project.getPackages()) {
     const pkgContext = withCwd(withPackage(context, pkg), pkg.location);
-    const pkgConfig = await collector(pkgContext);
-    if (isConfigError(pkgConfig)) {
+    let result: ConfigType;
+    try {
+      result = await innerPipe(cmdOpts, inner, pkgContext);
+    } catch (e) {
+      if (!isConfigError(e)) {
+        throw e;
+      }
+
       if (options.bail) {
-        return pkgConfig;
-      } else {
-        errors.push(pkgConfig);
+        throw e;
       }
-    } else {
-      const arr = toArray(fixPaths(pkgConfig, pkg.location));
-      if (arr.length === 0 && options.failIfPackageIsEmpty) {
-        return new PackageConfigEmptyError(project, pkg);
-      } else {
-        result.push(...arr);
-      }
+
+      errors.push(e);
+      continue;
     }
+
+    const arr = toArray(fixPaths(result, pkg.location));
+    if (arr.length === 0 && options.failIfPackageIsEmpty) {
+      throw new PackageConfigEmptyError(pkgContext);
+    }
+
+    results.push(...arr);
   }
 
-  if (result.length === 0 && options.failIfProjectIsEmpty) {
-    return new ProjectConfigEmptyError(project);
+  if (results.length === 0 && options.failIfProjectIsEmpty) {
+    throw new ProjectConfigEmptyError(context);
   }
 
   if (errors.length > 0 && options.failIfProjectHasErrors) {
-    return new ProjectConfigAggregatedError(project, errors);
+    throw new ProjectConfigAggregatedError(errors, context);
   }
 
-  return result;
+  return results;
 };
