@@ -1,6 +1,7 @@
 import { InputOption, OutputOptions, RollupWatchOptions } from 'rollup';
 
 import { mapObj } from './map-obj';
+import { mapOptions } from './map-config';
 import path from 'path';
 
 const mapInput = (location: string) => (input: InputOption): InputOption => {
@@ -51,6 +52,4 @@ export const fixPaths = (
   confs: RollupWatchOptions | ReadonlyArray<RollupWatchOptions>,
   location: string,
 ): RollupWatchOptions | ReadonlyArray<RollupWatchOptions> =>
-  Array.isArray(confs)
-    ? confs.map(c => fixConfigPaths(c, location))
-    : fixConfigPaths(confs as RollupWatchOptions, location);
+  mapOptions(confs, c => fixConfigPaths(c, location));

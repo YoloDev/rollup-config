@@ -34,7 +34,6 @@ const binSafeName = ({ name, scope }) =>
   scope ? name.substring(scope.length + 1) : name;
 
 const perPkg = (_, pkg) => {
-  debugger;
   const safeName = binSafeName(pkg.resolved);
   const isPkgExternal = isExternal(pkg);
   const external = id => {
@@ -65,9 +64,7 @@ const perPkg = (_, pkg) => {
 const config = async () => {
   let result = [];
   const project = new Project(__dirname);
-  debugger;
   for (const pkg of await project.getPackages()) {
-    debugger;
     const pkgConf = perPkg(project, pkg);
     if (Array.isArray(pkgConf)) {
       result.push(...pkgConf);

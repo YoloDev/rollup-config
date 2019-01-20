@@ -1,1 +1,1 @@
-export { delegate } from './delegate';
+export { delegate, delegate as default } from './delegate';

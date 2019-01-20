@@ -1,11 +1,11 @@
 {
-  "name": "@yolodev/rollup-config-delegate",
-  "version": "0.2.0",
+  "name": "@yolodev/rollup-config-external-deps",
+  "version": "0.1.0",
   "description": "Config for lerna based monorepos that builds all packages using a single rollup bundler",
   "author": "Aleksander Heintz <alxandr@alxandr.me>",
   "license": "MIT",
-  "main": "dist/rollup-config-delegate.js",
-  "module": "dist/rollup-config-delegate.esm.js",
+  "main": "dist/rollup-config-external-deps.js",
+  "module": "dist/rollup-config-external-deps.esm.js",
   "typings": "src/index.ts",
   "directories": {
     "lib": "dist",
@@ -21,9 +21,13 @@
   "scripts": {},
   "dependencies": {
     "@yolodev/rollup-config-core": "^0.2.0",
-    "@yolodev/rollup-config-utils": "^0.2.0"
+    "@yolodev/rollup-config-utils": "^0.2.0",
+    "builtin-modules": "^3.0.0"
   },
   "peerDependencies": {
-    "rollup": "^1.1.1"
+    "rollup": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/builtin-modules": "^2.0.0"
   }
 }

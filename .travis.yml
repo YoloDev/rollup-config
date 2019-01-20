@@ -2,13 +2,12 @@ dist: trusty
 sudo: false
 language: node_js
 
-cache:
-  yarn: true
-
 before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.9.4
-  - export PATH=$HOME/.yarn/bin:$PATH
-  - yarn global add greenkeeper-lockfile@2
+  - curl -L https://unpkg.com/@pnpm/self-installer | node
+  - pnpm i -g greenkeeper-lockfile@2
+
+install:
+  - pnpm recursive install
 
 before_script: greenkeeper-lockfile-update
 after_script: greenkeeper-lockfile-upload

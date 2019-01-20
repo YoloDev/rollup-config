@@ -1,15 +1,21 @@
-const _context: unique symbol = Symbol.for('rollup-config:context');
+import { RollupConfigPipe } from './types';
+
+const _context = Symbol.for('rollup-config:context');
+
+export type StackFrame = RollupConfigPipe;
 
 export interface IConfigContext {
   readonly cwd: string;
-  readonly commandOptions: any;
+  readonly stack: ReadonlyArray<StackFrame>;
   readonly [_context]: true;
 }
 
-export const createContext = (commandOptions?: any): IConfigContext =>
+// TODO: Instead of Object.create, doing copying might be better for both create and createChild, but needs to include symbols
+
+export const createContext = (): IConfigContext =>
   Object.freeze({
     cwd: process.cwd(),
-    commandOptions,
+    stack: Object.freeze([]),
     [_context]: true as true,
   });
 
@@ -40,3 +46,11 @@ export const isContext = (o: any): o is IConfigContext =>
 
 export const withCwd = <T extends IConfigContext>(context: T, cwd: string): T =>
   createChildContext(context, { cwd } as Extension<T, T>);
+
+export const addStackFrame = <T extends IConfigContext>(
+  context: T,
+  frame: StackFrame,
+): T =>
+  createChildContext(context, {
+    stack: Object.freeze([...context.stack, frame]),
+  } as Extension<T, T>);

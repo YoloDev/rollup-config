@@ -1,22 +1,25 @@
 import {
   Awaitable,
   ConfigType,
-  IConfigContext,
-  IConfigPipe,
-  RollupConfigFactoryPipe,
+  createMiddleware,
+  createPipe,
+  withCwd,
 } from '@yolodev/rollup-config-core';
 import {
   IPackageConfigContext,
   IProjectConfigContext,
+  isPackageContext,
+  isProjectContext,
   withPackage,
   withProject,
 } from './context';
-import { Package, Project } from './types';
 import {
-  RollupPackageConfigFactoryPipe,
-  RollupProjectConfigFactoryPipe,
-  createPackagePipe,
-} from './pipe';
+  NameKind,
+  createNameFactory,
+  createNamed,
+  fixPaths,
+} from '@yolodev/rollup-config-utils';
+import { Package, Project } from './types';
 
 import path from 'path';
 import readPkgUp from 'read-pkg-up';
@@ -27,52 +30,65 @@ export type WithPackageFactory = (
   commandOptions?: any,
 ) => Awaitable<ConfigType>;
 
-export type WithPackageOptions = {};
+export type WithPackageOptions = {
+  packageDir: string | ((dirname: string) => Awaitable<string>);
+};
 
-const defaultWithProjectOptions: WithPackageOptions = {};
+const defaultWithProjectOptions: WithPackageOptions = {
+  packageDir: (dirname: string) => dirname,
+};
 
-export const withPackageInfo = (
-  fromPackage: WithPackageFactory,
-  opts: Partial<WithPackageOptions>,
-): IConfigPipe => {
-  const options: WithPackageOptions = { ...defaultWithProjectOptions, ...opts };
+export const withPackageInfo = (opts: Partial<WithPackageOptions> = {}) => {
+  const options = { ...defaultWithProjectOptions, ...opts };
+  const optsName = createNamed((kind = NameKind.Simple) => {
+    if (kind === NameKind.Compact || kind === NameKind.Simple)
+      return JSON.stringify(options);
+    return JSON.stringify(options, null, 2);
+  });
+  const nameFactory = createNameFactory('withPackageInfo', [optsName]);
 
-  const packageConfigPipe: RollupPackageConfigFactoryPipe = (
-    context: IPackageConfigContext,
-  ) => fromPackage(context.package, context.project, context.commandOptions);
+  return createMiddleware(nameFactory, innerPipe =>
+    createPipe(nameFactory, async (cmdOpts, inner, context) => {
+      let packageDir: string | null = null;
+      let projectContext: IProjectConfigContext;
+      let packageContext: IPackageConfigContext;
 
-  const projectConfigPipe: RollupProjectConfigFactoryPipe = async (
-    context: IProjectConfigContext,
-  ) => {
-    const { cwd } = context;
-    const pkgInfo = await readPkgUp({ cwd });
-    const pkg = new Package(
-      pkgInfo.pkg,
-      path.dirname(pkgInfo.path),
-      context.project.rootPath,
-    );
+      if (!isProjectContext(context)) {
+        packageDir =
+          typeof options.packageDir === 'string'
+            ? path.resolve(context.cwd, options.packageDir)
+            : await options.packageDir(context.cwd);
 
-    const pkgContext = withPackage(context, pkg);
-    return await packageConfigPipe(pkgContext);
-  };
+        const project = new Project(packageDir);
+        projectContext = withProject(context, project);
+      } else {
+        projectContext = context;
+      }
 
-  const configPipe: RollupConfigFactoryPipe = async (
-    context: IConfigContext,
-  ) => {
-    const { cwd } = context;
-    const project = new Project(cwd);
-    const projectContext = withProject(context, project);
+      if (!isPackageContext(context)) {
+        if (packageDir === null) {
+          packageDir =
+            typeof options.packageDir === 'string'
+              ? path.resolve(projectContext.cwd, options.packageDir)
+              : await options.packageDir(projectContext.cwd);
+        }
 
-    const pkgInfo = await readPkgUp({ cwd });
-    const pkg = new Package(
-      pkgInfo.pkg,
-      path.dirname(pkgInfo.path),
-      project.rootPath,
-    );
+        const pkgInfo = await readPkgUp({ cwd: packageDir });
+        const pkg = new Package(
+          pkgInfo.pkg,
+          path.dirname(pkgInfo.path),
+          projectContext.project.rootPath,
+        );
 
-    const pkgContext = withPackage(projectContext, pkg);
-    return await packageConfigPipe(pkgContext);
-  };
+        packageContext = withCwd(withPackage(projectContext, pkg), packageDir);
+      } else {
+        packageContext = context;
+      }
 
-  return createPackagePipe(configPipe, projectConfigPipe, packageConfigPipe);
+      return fixPaths(
+        await innerPipe(cmdOpts, inner, packageContext),
+        packageContext.cwd,
+      );
+    }),
+  );
 };
