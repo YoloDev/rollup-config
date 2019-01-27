@@ -4,7 +4,7 @@ language: node_js
 
 before_install:
   - curl -L https://unpkg.com/@pnpm/self-installer | node
-  - pnpm i -g greenkeeper-lockfile@2
+  - pnpm i -g Alxandr/greenkeeper-lockfile
 
 install:
   - pnpm recursive install
