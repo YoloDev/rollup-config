@@ -8,6 +8,7 @@ importers:
       '@yolodev/rollup-config-core': 'link:packages/core'
       '@yolodev/rollup-config-external-deps': 'link:packages/external-deps'
       '@yolodev/rollup-config-lerna': 'link:packages/lerna'
+      '@yolodev/rollup-config-typescript': 'link:packages/typescript'
       builtin-modules: 3.0.0
       lerna: 3.10.7
       rimraf: 2.6.3
@@ -22,6 +23,7 @@ importers:
       '@yolodev/rollup-config-core': 0.2.0
       '@yolodev/rollup-config-external-deps': 0.1.0
       '@yolodev/rollup-config-lerna': 0.2.0
+      '@yolodev/rollup-config-typescript': 0.1.0
       builtin-modules: 3.0.0
       lerna: 3.10.7
       rimraf: 2.6.3
@@ -71,6 +73,15 @@ importers:
       '@yolodev/rollup-config-utils': ^0.2.0
       es6-error: 4.1.1
       read-pkg-up: 4.0.0
+  packages/typescript:
+    dependencies:
+      '@yolodev/rollup-config-core': 'link:../core'
+      '@yolodev/rollup-config-utils': 'link:../utils'
+      rollup-plugin-typescript2: 0.19.2
+    specifiers:
+      '@yolodev/rollup-config-core': ^0.2.0
+      '@yolodev/rollup-config-utils': ^0.2.0
+      rollup-plugin-typescript2: ^0.19.2
   packages/utils:
     specifiers: {}
 packages:
@@ -839,7 +850,6 @@ packages:
   /arr-diff/2.0.0:
     dependencies:
       arr-flatten: 1.1.0
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -888,7 +898,6 @@ packages:
     resolution:
       integrity: sha1-r2rId6Jcx/dOBYiUdThY39sk/bY=
   /array-unique/0.2.1:
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -994,7 +1003,6 @@ packages:
       expand-range: 1.8.2
       preserve: 0.2.0
       repeat-element: 1.1.3
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -1612,7 +1620,6 @@ packages:
     resolution:
       integrity: sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==
   /estree-walker/0.5.2:
-    dev: true
     resolution:
       integrity: sha512-XpCnW/AE10ws/kDAs37cngSkvgIR8aN3G0MS85m7dUpuK2EREo9VJ00uvw6Dg/hXEpfsE1I1TvJOJr+Z+TL+ig==
   /execa/1.0.0:
@@ -1632,7 +1639,6 @@ packages:
   /expand-brackets/0.1.5:
     dependencies:
       is-posix-bracket: 0.1.1
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -1653,7 +1659,6 @@ packages:
   /expand-range/1.8.2:
     dependencies:
       fill-range: 2.2.4
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -1689,7 +1694,6 @@ packages:
   /extglob/0.3.2:
     dependencies:
       is-extglob: 1.0.0
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -1748,7 +1752,6 @@ packages:
     resolution:
       integrity: sha1-OrGi0qYsi/tDGgyUy3l6L84nyWI=
   /filename-regex/2.0.1:
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -1760,7 +1763,6 @@ packages:
       randomatic: 3.1.1
       repeat-element: 1.1.3
       repeat-string: 1.6.1
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -1816,7 +1818,6 @@ packages:
   /for-own/0.1.5:
     dependencies:
       for-in: 1.0.2
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -1851,7 +1852,6 @@ packages:
       graceful-fs: 4.1.15
       jsonfile: 4.0.0
       universalify: 0.1.2
-    dev: true
     engines:
       node: '>=6 <7 || >=8'
     resolution:
@@ -2002,7 +2002,6 @@ packages:
     dependencies:
       glob-parent: 2.0.0
       is-glob: 2.0.1
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -2010,7 +2009,6 @@ packages:
   /glob-parent/2.0.0:
     dependencies:
       is-glob: 2.0.1
-    dev: true
     resolution:
       integrity: sha1-gTg9ctsFT8zPUzbaqQLxgvbtuyg=
   /glob-parent/3.1.0:
@@ -2332,7 +2330,6 @@ packages:
     resolution:
       integrity: sha1-YTObbyR1/Hcv2cnYP1yFddwVSuE=
   /is-dotfile/1.0.3:
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -2340,7 +2337,6 @@ packages:
   /is-equal-shallow/0.1.3:
     dependencies:
       is-primitive: 2.0.0
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -2358,7 +2354,6 @@ packages:
     resolution:
       integrity: sha512-arnXMxT1hhoKo9k1LZdmlNyJdDDfy2v0fXjFlmok4+i8ul/6WlbVge9bhM74OpNPQPMGUToDtz+KXa1PneJxOA==
   /is-extglob/1.0.0:
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -2391,7 +2386,6 @@ packages:
   /is-glob/2.0.1:
     dependencies:
       is-extglob: 1.0.0
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -2413,7 +2407,6 @@ packages:
   /is-number/2.1.0:
     dependencies:
       kind-of: 3.2.2
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -2426,7 +2419,6 @@ packages:
     resolution:
       integrity: sha1-JP1iAaR4LPUFYcgQJ2r8fRLXEZU=
   /is-number/4.0.0:
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -2449,13 +2441,11 @@ packages:
     resolution:
       integrity: sha512-h5PpgXkWitc38BBMYawTYMWJHFZJVnBquFE57xFpjB8pJFiF6gZ+bU+WyI/yqXiFR5mdLsgYNaPe8uao6Uv9Og==
   /is-posix-bracket/0.1.1:
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-MzTceXdDaOkvAW5vvAqI9c1ua8Q=
   /is-primitive/2.0.0:
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -2538,7 +2528,6 @@ packages:
     resolution:
       integrity: sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
   /jsonfile/4.0.0:
-    dev: true
     optionalDependencies:
       graceful-fs: 4.1.15
     resolution:
@@ -2846,7 +2835,6 @@ packages:
     resolution:
       integrity: sha1-7Nyo8TFE5mDxtb1B8S80edmN+48=
   /math-random/1.0.4:
-    dev: true
     resolution:
       integrity: sha512-rUxjysqif/BZQH2yhd5Aaq7vXMSx9NdEsQcyA07uEzIvxgI7zIr33gGsh+RU0/XjmQpCW7RsVof1vlkvQVCK5A==
   /mem/4.0.0:
@@ -2912,7 +2900,6 @@ packages:
       object.omit: 2.0.1
       parse-glob: 3.0.4
       regex-cache: 0.4.4
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -3127,7 +3114,6 @@ packages:
   /normalize-path/2.1.1:
     dependencies:
       remove-trailing-separator: 1.1.0
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -3237,7 +3223,6 @@ packages:
     dependencies:
       for-own: 0.1.5
       is-extendable: 0.1.1
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -3435,7 +3420,6 @@ packages:
       is-dotfile: 1.0.3
       is-extglob: 1.0.0
       is-glob: 2.0.1
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -3492,7 +3476,6 @@ packages:
     resolution:
       integrity: sha1-QRyttXTFoUDTpLGRDUDYDMn0C0A=
   /path-parse/1.0.6:
-    dev: true
     resolution:
       integrity: sha512-GSmOT2EbHrINBf9SR7CDELwlJ8AENk3Qn7OikK4nFYAu3Ote2+JYNVvkpAEQm3/TLNEJFD/xZJjzyxg3KBWOzw==
   /path-type/1.1.0:
@@ -3554,7 +3537,6 @@ packages:
     resolution:
       integrity: sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=
   /preserve/0.2.0:
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -3644,7 +3626,6 @@ packages:
       is-number: 4.0.0
       kind-of: 6.0.2
       math-random: 1.0.4
-    dev: true
     engines:
       node: '>= 0.10.0'
     resolution:
@@ -3769,7 +3750,6 @@ packages:
   /regex-cache/0.4.4:
     dependencies:
       is-equal-shallow: 0.1.3
-    dev: true
     engines:
       node: '>=0.10.0'
     resolution:
@@ -3783,7 +3763,6 @@ packages:
     resolution:
       integrity: sha512-J6SDjUgDxQj5NusnOtdFxDwN/+HWykR8GELwctJ7mdqhcyy1xEc4SRFHUXvxTp661YaVKAjfRLZ9cCqS6tn32A==
   /remove-trailing-separator/1.1.0:
-    dev: true
     resolution:
       integrity: sha1-wkvOKig62tW8P1jg1IJJuSN52O8=
   /repeat-element/1.1.3:
@@ -3864,7 +3843,6 @@ packages:
   /resolve/1.8.1:
     dependencies:
       path-parse: 1.0.6
-    dev: true
     resolution:
       integrity: sha512-AicPrAC7Qu1JxPCZ9ZgCZlY35QgFnNqc+0LtbRNxnVw4TXvjQ72wnuL9JQcEBgXkI9JM8MsT9kaQoHcpCRJOYA==
   /restore-cursor/2.0.0:
@@ -3896,7 +3874,6 @@ packages:
       resolve: 1.8.1
       rollup-pluginutils: 2.3.3
       tslib: 1.9.3
-    dev: true
     peerDependencies:
       rollup: '>=0.68.0'
       typescript: '>=2.4.0'
@@ -3906,7 +3883,6 @@ packages:
     dependencies:
       estree-walker: 0.5.2
       micromatch: 2.3.11
-    dev: true
     resolution:
       integrity: sha512-2XZwja7b6P5q4RZ5FhyX1+f46xi1Z3qBKigLRZ6VTZjwbN0K1IFGMlwm06Uu0Emcre2Z63l77nq/pzn+KxIEoA==
   /rollup/1.1.2:
@@ -4387,7 +4363,6 @@ packages:
     resolution:
       integrity: sha1-n5up2e+odkw4dpi8v+sshI8RrbM=
   /tslib/1.9.3:
-    dev: true
     resolution:
       integrity: sha512-4krF8scpejhaOgqzBEcGM7yDIEfi0/8+8zDRZhNZZ2kjmHJ4hv3zCbQWxoJGz1iw5U0Jl0nma13xzHXcncMavQ==
   /tunnel-agent/0.6.0:
@@ -4446,7 +4421,6 @@ packages:
     resolution:
       integrity: sha512-n9cU6+gITaVu7VGj1Z8feKMmfAjEAQGhwD9fE3zvpRRa0wEIx8ODYkVGfSc94M2OX00tUFV8wH3zYbm1I8mxFg==
   /universalify/0.1.2:
-    dev: true
     engines:
       node: '>= 4.0.0'
     resolution:

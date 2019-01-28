@@ -4,6 +4,11 @@
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
-    "target": "esnext"
+    "target": "esnext",
+    "declaration": true,
+    "declarationMap": true,
+    "traceResolution": true,
+    "typeRoots": ["./typings", "./node_modules/@types"],
+    "sourceMap": true
   }
 }

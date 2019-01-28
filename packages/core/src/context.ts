@@ -6,18 +6,23 @@ export type StackFrame = RollupConfigPipe;
 
 export interface IConfigContext {
   readonly cwd: string;
+  readonly root: string;
   readonly stack: ReadonlyArray<StackFrame>;
   readonly [_context]: true;
 }
 
 // TODO: Instead of Object.create, doing copying might be better for both create and createChild, but needs to include symbols
 
-export const createContext = (): IConfigContext =>
-  Object.freeze({
-    cwd: process.cwd(),
+export const createContext = (): IConfigContext => {
+  const cwd = process.cwd();
+
+  return Object.freeze({
+    cwd: cwd,
+    root: cwd,
     stack: Object.freeze([]),
     [_context]: true as true,
   });
+};
 
 type Diff<
   T extends string | number | symbol,

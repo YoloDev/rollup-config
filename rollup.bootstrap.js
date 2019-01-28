@@ -56,7 +56,21 @@ const perPkg = (_, pkg) => {
         sourcemap: true,
       },
     ],
-    plugins: [typescript()],
+    plugins: [
+      typescript({
+        cacheRoot: path.resolve(__dirname, '.rpt2_cache'),
+        tsconfigOverride: {
+          include: [
+            path.join(path.resolve(pkg.location, 'src'), '**', '*.ts'),
+            path.join(path.resolve(pkg.location, 'src'), '**', '*.tsx'),
+          ],
+          compilerOptions: {
+            rootDir: path.resolve(pkg.location, 'src'),
+            mapRoot: path.resolve(pkg.location, 'dist'),
+          },
+        },
+      }),
+    ],
     external,
   };
 };

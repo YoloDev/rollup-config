@@ -1,6 +1,7 @@
 import * as fs from './fs';
 
 export { addExternal } from './add-external';
+export { addPlugins } from './add-plugins';
 export { mapOptions, mapInputs, mapOutputs } from './map-config';
 export { toArray } from './to-array';
 export { mapObj } from './map-obj';
