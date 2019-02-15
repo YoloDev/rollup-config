@@ -21,7 +21,7 @@
   "scripts": {},
   "dependencies": {
     "@lerna/package": "3.11.0",
-    "@lerna/project": "3.11.0",
+    "@lerna/project": "3.13.0",
     "@yolodev/rollup-config-core": "^0.2.0",
     "@yolodev/rollup-config-delegate": "^0.2.0",
     "@yolodev/rollup-config-utils": "^0.2.0",
