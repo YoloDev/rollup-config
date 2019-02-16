@@ -9,7 +9,7 @@
     "@types/node": "^11.9.4",
     "@types/npm-package-arg": "^6.1.0",
     "@types/read-pkg-up": "3.0.1",
-    "@yolodev/rollup-config-core": "0.2.0",
+    "@yolodev/rollup-config-core": "0.3.0",
     "@yolodev/rollup-config-external-deps": "0.1.0",
     "@yolodev/rollup-config-lerna": "0.2.0",
     "@yolodev/rollup-config-typescript": "0.1.0",
