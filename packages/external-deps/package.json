@@ -1,6 +1,6 @@
 {
   "name": "@yolodev/rollup-config-external-deps",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Config for lerna based monorepos that builds all packages using a single rollup bundler",
   "author": "Aleksander Heintz <alxandr@alxandr.me>",
   "license": "MIT",
@@ -22,8 +22,8 @@
     "release": "../../node_modules/.bin/np"
   },
   "dependencies": {
-    "@yolodev/rollup-config-core": "^0.2.0",
-    "@yolodev/rollup-config-utils": "^0.2.0",
+    "@yolodev/rollup-config-core": "^0.3.0",
+    "@yolodev/rollup-config-utils": "^0.3.0",
     "builtin-modules": "^3.0.0"
   },
   "peerDependencies": {
