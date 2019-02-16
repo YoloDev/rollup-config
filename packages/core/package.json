@@ -18,7 +18,9 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
+  "scripts": {
+    "release": "../../node_modules/.bin/np"
+  },
   "dependencies": {
     "@yolodev/rollup-config-utils": "^0.2.0",
     "es6-error": "4.1.1"
