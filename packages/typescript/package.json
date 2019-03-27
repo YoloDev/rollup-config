@@ -1,6 +1,6 @@
 {
   "name": "@yolodev/rollup-config-typescript",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Config for lerna based monorepos that builds all packages using a single rollup bundler",
   "author": "Aleksander Heintz <alxandr@alxandr.me>",
   "license": "MIT",
@@ -24,7 +24,7 @@
   "dependencies": {
     "@yolodev/rollup-config-core": "^0.3.0",
     "@yolodev/rollup-config-utils": "^0.3.0",
-    "rollup-plugin-typescript2": "^0.19.2"
+    "rollup-plugin-typescript2": "^0.20.1"
   },
   "peerDependencies": {
     "rollup": "^1.0.0",
