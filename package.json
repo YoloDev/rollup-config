@@ -17,7 +17,7 @@
     "lerna": "^3.13.1",
     "np": "^4.0.2",
     "rimraf": "2.6.3",
-    "rollup": "^1.7.3",
+    "rollup": "^1.16.2",
     "rollup-plugin-typescript2": "^0.20.1",
     "typescript": "^3.3.4000"
   },
