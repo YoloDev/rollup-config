@@ -5,7 +5,7 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@lerna/project": "^3.13.1",
+    "@lerna/project": "^3.16.0",
     "@types/node": "^11.9.4",
     "@types/npm-package-arg": "^6.1.0",
     "@types/read-pkg-up": "3.0.1",
