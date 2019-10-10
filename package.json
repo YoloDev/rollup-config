@@ -15,7 +15,7 @@
     "@yolodev/rollup-config-typescript": "0.2.1",
     "builtin-modules": "3.0.0",
     "lerna": "^3.13.1",
-    "np": "^4.0.2",
+    "np": "^5.1.1",
     "rimraf": "2.6.3",
     "rollup": "^1.7.3",
     "rollup-plugin-typescript2": "^0.20.1",
