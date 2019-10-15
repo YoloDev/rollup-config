@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@lerna/package": "3.13.0",
-    "@lerna/project": "^3.13.1",
+    "@lerna/project": "^3.18.0",
     "@yolodev/rollup-config-core": "^0.3.0",
     "@yolodev/rollup-config-delegate": "^0.3.0",
     "@yolodev/rollup-config-utils": "^0.3.0",
