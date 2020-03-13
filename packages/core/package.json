@@ -26,6 +26,6 @@
     "es6-error": "4.1.1"
   },
   "peerDependencies": {
-    "rollup": "^1.1.1"
+    "rollup": "^2.0.6"
   }
 }
