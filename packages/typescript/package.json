@@ -27,7 +27,7 @@
     "rollup-plugin-typescript2": "^0.20.1"
   },
   "peerDependencies": {
-    "rollup": "^1.0.0",
+    "rollup": "^2.10.2",
     "typescript": "^3.2.0"
   }
 }
