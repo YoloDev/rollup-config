@@ -18,7 +18,7 @@
     "np": "7.2.0",
     "rimraf": "2.6.3",
     "rollup": "1.32.1",
-    "rollup-plugin-typescript2": "0.20.1",
+    "rollup-plugin-typescript2": "0.29.0",
     "typescript": "3.9.7"
   },
   "greenkeeper": {
