@@ -12,7 +12,7 @@ importers:
       builtin-modules: 3.2.0
       lerna: 3.22.1
       np: 7.2.0
-      rimraf: 2.7.1
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-typescript2: 0.29.0_rollup@1.32.1+typescript@3.9.7
       typescript: 3.9.7
@@ -28,7 +28,7 @@ importers:
       builtin-modules: 3.2.0
       lerna: 3.22.1
       np: 7.2.0
-      rimraf: 2.7.1
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-typescript2: 0.29.0
       typescript: 3.9.7
@@ -5859,13 +5859,6 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==
-  /rimraf/2.7.1:
-    dependencies:
-      glob: 7.1.6
-    dev: true
-    hasBin: true
-    resolution:
-      integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==
   /rimraf/3.0.2:
     dependencies:
       glob: 7.1.6
