@@ -2,7 +2,7 @@ importers:
   .:
     devDependencies:
       '@lerna/project': 4.0.0
-      '@types/node': 11.15.44
+      '@types/node': 11.15.45
       '@types/npm-package-arg': 6.1.0
       '@types/read-pkg-up': 3.0.1
       '@yolodev/rollup-config-core': link:packages/core
@@ -18,7 +18,7 @@ importers:
       typescript: 4.1.5
     specifiers:
       '@lerna/project': 4.0.0
-      '@types/node': 11.15.44
+      '@types/node': 11.15.45
       '@types/npm-package-arg': 6.1.0
       '@types/read-pkg-up': 3.0.1
       '@yolodev/rollup-config-core': 0.3.0
@@ -1212,6 +1212,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-fHAcNn2FlzDMA9rV5KP73r1cMZdbommWic2foHAEWoa/LITi91AueHDsJpnqjBEJ7bYoT2WC+KN1RL0vsM20zA==
+  /@types/node/11.15.45:
+    dev: true
+    resolution:
+      integrity: sha512-zv09ag39ygxpt7TtzcWanXj3vHG/5mrVhR3yiPDI2pGBslirLLINtvrWWeFAhHS3oukbwqj/1Ql2zTNqp0UTlw==
   /@types/normalize-package-data/2.4.0:
     resolution:
       integrity: sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==
