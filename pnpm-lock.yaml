@@ -13,8 +13,8 @@ importers:
       lerna: 4.0.0
       np: 7.4.0
       rimraf: 3.0.2
-      rollup: 2.41.4
-      rollup-plugin-typescript2: 0.30.0_rollup@2.41.4+typescript@4.2.2
+      rollup: 2.41.5
+      rollup-plugin-typescript2: 0.30.0_rollup@2.41.5+typescript@4.2.2
       typescript: 4.2.2
     specifiers:
       '@lerna/project': 4.0.0
@@ -29,7 +29,7 @@ importers:
       lerna: 4.0.0
       np: 7.4.0
       rimraf: 3.0.2
-      rollup: 2.41.4
+      rollup: 2.41.5
       rollup-plugin-typescript2: 0.30.0
       typescript: 4.2.2
   packages/core:
@@ -1035,11 +1035,11 @@ packages:
       rollup: ^1.20.0||^2.0.0
     resolution:
       integrity: sha512-TrBhfJkFxA+ER+ew2U2/fHbebhLT/l/2pRk0hfj9KusXUuRXd2v0R58AfaZK9VXDQ4TogOSEmICVrQAA3zFnHQ==
-  /@rollup/pluginutils/4.1.0_rollup@2.41.4:
+  /@rollup/pluginutils/4.1.0_rollup@2.41.5:
     dependencies:
       estree-walker: 2.0.2
       picomatch: 2.2.2
-      rollup: 2.41.4
+      rollup: 2.41.5
     dev: true
     engines:
       node: '>= 8.0.0'
@@ -5112,13 +5112,13 @@ packages:
       typescript: '>=2.4.0'
     resolution:
       integrity: sha512-NUFszIQyhgDdhRS9ya/VEmsnpTe+GERDMmFo0Y+kf8ds51Xy57nPNGglJY+W6x1vcouA7Au7nsTgsLFj2I0PxQ==
-  /rollup-plugin-typescript2/0.30.0_rollup@2.41.4+typescript@4.2.2:
+  /rollup-plugin-typescript2/0.30.0_rollup@2.41.5+typescript@4.2.2:
     dependencies:
-      '@rollup/pluginutils': 4.1.0_rollup@2.41.4
+      '@rollup/pluginutils': 4.1.0_rollup@2.41.5
       find-cache-dir: 3.3.1
       fs-extra: 8.1.0
       resolve: 1.20.0
-      rollup: 2.41.4
+      rollup: 2.41.5
       tslib: 2.1.0
       typescript: 4.2.2
     dev: true
@@ -5127,7 +5127,7 @@ packages:
       typescript: '>=2.4.0'
     resolution:
       integrity: sha512-NUFszIQyhgDdhRS9ya/VEmsnpTe+GERDMmFo0Y+kf8ds51Xy57nPNGglJY+W6x1vcouA7Au7nsTgsLFj2I0PxQ==
-  /rollup/2.41.4:
+  /rollup/2.41.5:
     dev: true
     engines:
       node: '>=10.0.0'
@@ -5135,7 +5135,7 @@ packages:
     optionalDependencies:
       fsevents: 2.3.1
     resolution:
-      integrity: sha512-f9IHfMO8p2Y8OdisI7Oj3oKkPuaQ6cgSwYqAi0TDvP3w2p+oX1VejX/w28a1h8WTnrapzfO5d4Uqhww+gL0b0g==
+      integrity: sha512-uG+WNNxhOYyeuO7oRt98GA2CNVRgQ67zca75UQVMPzMrLG9FUKzTCgvYVWhtB18TNbV7Uqxo97h+wErAnpFNJw==
   /run-async/2.4.1:
     dev: true
     engines:
