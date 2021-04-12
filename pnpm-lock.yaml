@@ -16,7 +16,7 @@ importers:
       lerna: 4.0.0
       np: 7.4.0
       rimraf: 3.0.2
-      rollup: 2.44.0
+      rollup: 2.45.1
       rollup-plugin-typescript2: 0.30.0
       typescript: 4.2.4
     devDependencies:
@@ -32,8 +32,8 @@ importers:
       lerna: 4.0.0
       np: 7.4.0
       rimraf: 3.0.2
-      rollup: 2.44.0
-      rollup-plugin-typescript2: 0.30.0_rollup@2.44.0+typescript@4.2.4
+      rollup: 2.45.1
+      rollup-plugin-typescript2: 0.30.0_rollup@2.45.1+typescript@4.2.4
       typescript: 4.2.4
 
   packages/core:
@@ -990,7 +990,7 @@ packages:
       picomatch: 2.2.2
     dev: false
 
-  /@rollup/pluginutils/4.1.0_rollup@2.44.0:
+  /@rollup/pluginutils/4.1.0_rollup@2.45.1:
     resolution: {integrity: sha512-TrBhfJkFxA+ER+ew2U2/fHbebhLT/l/2pRk0hfj9KusXUuRXd2v0R58AfaZK9VXDQ4TogOSEmICVrQAA3zFnHQ==}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
@@ -998,7 +998,7 @@ packages:
     dependencies:
       estree-walker: 2.0.2
       picomatch: 2.2.2
-      rollup: 2.44.0
+      rollup: 2.45.1
     dev: true
 
   /@samverschueren/stream-to-observable/0.3.1_rxjs@6.6.3:
@@ -4769,23 +4769,23 @@ packages:
       tslib: 2.1.0
     dev: false
 
-  /rollup-plugin-typescript2/0.30.0_rollup@2.44.0+typescript@4.2.4:
+  /rollup-plugin-typescript2/0.30.0_rollup@2.45.1+typescript@4.2.4:
     resolution: {integrity: sha512-NUFszIQyhgDdhRS9ya/VEmsnpTe+GERDMmFo0Y+kf8ds51Xy57nPNGglJY+W6x1vcouA7Au7nsTgsLFj2I0PxQ==}
     peerDependencies:
       rollup: '>=1.26.3'
       typescript: '>=2.4.0'
     dependencies:
-      '@rollup/pluginutils': 4.1.0_rollup@2.44.0
+      '@rollup/pluginutils': 4.1.0_rollup@2.45.1
       find-cache-dir: 3.3.1
       fs-extra: 8.1.0
       resolve: 1.20.0
-      rollup: 2.44.0
+      rollup: 2.45.1
       tslib: 2.1.0
       typescript: 4.2.4
     dev: true
 
-  /rollup/2.44.0:
-    resolution: {integrity: sha512-rGSF4pLwvuaH/x4nAS+zP6UNn5YUDWf/TeEU5IoXSZKBbKRNTCI3qMnYXKZgrC0D2KzS2baiOZt1OlqhMu5rnQ==}
+  /rollup/2.45.1:
+    resolution: {integrity: sha512-vPD+JoDj3CY8k6m1bLcAFttXMe78P4CMxoau0iLVS60+S9kLsv2379xaGy4NgYWu+h2WTlucpoLPAoUoixFBag==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     optionalDependencies:
