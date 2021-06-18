@@ -18,7 +18,7 @@ importers:
       rimraf: 3.0.2
       rollup: 2.52.1
       rollup-plugin-typescript2: 0.30.0
-      typescript: 4.3.3
+      typescript: 4.3.4
     devDependencies:
       '@lerna/project': 4.0.0
       '@types/node': 14.17.3
@@ -33,8 +33,8 @@ importers:
       np: 7.5.0
       rimraf: 3.0.2
       rollup: 2.52.1
-      rollup-plugin-typescript2: 0.30.0_rollup@2.52.1+typescript@4.3.3
-      typescript: 4.3.3
+      rollup-plugin-typescript2: 0.30.0_rollup@2.52.1+typescript@4.3.4
+      typescript: 4.3.4
 
   packages/core:
     specifiers:
@@ -4755,7 +4755,7 @@ packages:
       tslib: 2.1.0
     dev: false
 
-  /rollup-plugin-typescript2/0.30.0_rollup@2.52.1+typescript@4.3.3:
+  /rollup-plugin-typescript2/0.30.0_rollup@2.52.1+typescript@4.3.4:
     resolution: {integrity: sha512-NUFszIQyhgDdhRS9ya/VEmsnpTe+GERDMmFo0Y+kf8ds51Xy57nPNGglJY+W6x1vcouA7Au7nsTgsLFj2I0PxQ==}
     peerDependencies:
       rollup: '>=1.26.3'
@@ -4767,7 +4767,7 @@ packages:
       resolve: 1.20.0
       rollup: 2.52.1
       tslib: 2.1.0
-      typescript: 4.3.3
+      typescript: 4.3.4
     dev: true
 
   /rollup/2.52.1:
@@ -5342,8 +5342,8 @@ packages:
     resolution: {integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=}
     dev: true
 
-  /typescript/4.3.3:
-    resolution: {integrity: sha512-rUvLW0WtF7PF2b9yenwWUi9Da9euvDRhmH7BLyBG4DCFfOJ850LGNknmRpp8Z8kXNUPObdZQEfKOiHtXuQHHKA==}
+  /typescript/4.3.4:
+    resolution: {integrity: sha512-uauPG7XZn9F/mo+7MrsRjyvbxFpzemRjKEZXS4AK83oP2KKOJPvb+9cO/gmnv8arWZvhnjVOXz7B49m1l0e9Ew==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
