@@ -7,7 +7,7 @@
   "devDependencies": {
     "@lerna/project": "4.0.0",
     "@types/node": "14.17.4",
-    "@types/npm-package-arg": "6.1.0",
+    "@types/npm-package-arg": "6.1.1",
     "@types/read-pkg-up": "3.0.1",
     "@yolodev/rollup-config-core": "0.3.0",
     "@yolodev/rollup-config-external-deps": "0.2.0",
