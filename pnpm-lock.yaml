@@ -6,7 +6,7 @@ importers:
     specifiers:
       '@lerna/project': 4.0.0
       '@types/node': 14.17.4
-      '@types/npm-package-arg': 6.1.0
+      '@types/npm-package-arg': 6.1.1
       '@types/read-pkg-up': 3.0.1
       '@yolodev/rollup-config-core': 0.3.0
       '@yolodev/rollup-config-external-deps': 0.2.0
@@ -22,7 +22,7 @@ importers:
     devDependencies:
       '@lerna/project': 4.0.0
       '@types/node': 14.17.4
-      '@types/npm-package-arg': 6.1.0
+      '@types/npm-package-arg': 6.1.1
       '@types/read-pkg-up': 3.0.1
       '@yolodev/rollup-config-core': link:packages/core
       '@yolodev/rollup-config-external-deps': link:packages/external-deps
@@ -1086,8 +1086,8 @@ packages:
   /@types/normalize-package-data/2.4.0:
     resolution: {integrity: sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==}
 
-  /@types/npm-package-arg/6.1.0:
-    resolution: {integrity: sha512-vbt5fb0y1svMhu++1lwtKmZL76d0uPChFlw7kEzyUmTwfmpHRcFb8i0R8ElT69q/L+QLgK2hgECivIAvaEDwag==}
+  /@types/npm-package-arg/6.1.1:
+    resolution: {integrity: sha512-452/1Kp9IdM/oR10AyqAgZOxUt7eLbm+EMJ194L6oarMYdZNiFIFAOJ7IIr0OrZXTySgfHjJezh2oiyk2kc3ag==}
     dev: true
 
   /@types/parse-json/4.0.0:
