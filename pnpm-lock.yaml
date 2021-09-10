@@ -18,7 +18,7 @@ importers:
       rimraf: 3.0.2
       rollup: 2.56.3
       rollup-plugin-typescript2: 0.30.0
-      typescript: 4.4.2
+      typescript: 4.4.3
     devDependencies:
       '@lerna/project': 4.0.0
       '@types/node': 14.17.15
@@ -33,8 +33,8 @@ importers:
       np: 7.5.0
       rimraf: 3.0.2
       rollup: 2.56.3
-      rollup-plugin-typescript2: 0.30.0_rollup@2.56.3+typescript@4.4.2
-      typescript: 4.4.2
+      rollup-plugin-typescript2: 0.30.0_rollup@2.56.3+typescript@4.4.3
+      typescript: 4.4.3
 
   packages/core:
     specifiers:
@@ -91,7 +91,7 @@ importers:
     dependencies:
       '@yolodev/rollup-config-core': link:../core
       '@yolodev/rollup-config-utils': link:../utils
-      rollup-plugin-typescript2: 0.30.0_rollup@2.56.3+typescript@4.4.2
+      rollup-plugin-typescript2: 0.30.0_rollup@2.56.3+typescript@4.4.3
 
   packages/utils:
     specifiers: {}
@@ -4731,7 +4731,7 @@ packages:
       glob: 7.1.6
     dev: true
 
-  /rollup-plugin-typescript2/0.30.0_rollup@2.56.3+typescript@4.4.2:
+  /rollup-plugin-typescript2/0.30.0_rollup@2.56.3+typescript@4.4.3:
     resolution: {integrity: sha512-NUFszIQyhgDdhRS9ya/VEmsnpTe+GERDMmFo0Y+kf8ds51Xy57nPNGglJY+W6x1vcouA7Au7nsTgsLFj2I0PxQ==}
     peerDependencies:
       rollup: '>=1.26.3'
@@ -4743,7 +4743,7 @@ packages:
       resolve: 1.20.0
       rollup: 2.56.3
       tslib: 2.1.0
-      typescript: 4.4.2
+      typescript: 4.4.3
 
   /rollup/2.56.3:
     resolution: {integrity: sha512-Au92NuznFklgQCUcV96iXlxUbHuB1vQMaH76DHl5M11TotjOHwqk9CwcrT78+Tnv4FN9uTBxq6p4EJoYkpyekg==}
@@ -5317,8 +5317,8 @@ packages:
     resolution: {integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=}
     dev: true
 
-  /typescript/4.4.2:
-    resolution: {integrity: sha512-gzP+t5W4hdy4c+68bfcv0t400HVJMMd2+H9B7gae1nQlBzCqvrXX+6GL/b3GAgyTH966pzrZ70/fRjwAtZksSQ==}
+  /typescript/4.4.3:
+    resolution: {integrity: sha512-4xfscpisVgqqDfPaJo5vkd+Qd/ItkoagnHpufr+i2QCHBsNYp+G7UAoyFl8aPtx879u38wPV65rZ8qbGZijalA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
