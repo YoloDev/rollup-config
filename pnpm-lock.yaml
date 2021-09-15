@@ -5,7 +5,7 @@ importers:
   .:
     specifiers:
       '@lerna/project': 4.0.0
-      '@types/node': 14.17.15
+      '@types/node': 14.17.16
       '@types/npm-package-arg': 6.1.1
       '@types/read-pkg-up': 3.0.1
       '@yolodev/rollup-config-core': 0.3.0
@@ -21,7 +21,7 @@ importers:
       typescript: 4.4.3
     devDependencies:
       '@lerna/project': 4.0.0
-      '@types/node': 14.17.15
+      '@types/node': 14.17.16
       '@types/npm-package-arg': 6.1.1
       '@types/read-pkg-up': 3.0.1
       '@yolodev/rollup-config-core': link:packages/core
@@ -1079,8 +1079,8 @@ packages:
     resolution: {integrity: sha512-X4K0pwvbFZ7+x5wyJUSROj4TJvyXxL0MY4OaxyphfEfgw+0DdYDltyqTX14LiYTIQdY49sDA/MabdtYc973yFg==}
     dev: true
 
-  /@types/node/14.17.15:
-    resolution: {integrity: sha512-D1sdW0EcSCmNdLKBGMYb38YsHUS6JcM7yQ6sLQ9KuZ35ck7LYCKE7kYFHOO59ayFOY3zobWVZxf4KXhYHcHYFA==}
+  /@types/node/14.17.16:
+    resolution: {integrity: sha512-WiFf2izl01P1CpeY8WqFAeKWwByMueBEkND38EcN8N68qb0aDG3oIS1P5MhAX5kUdr469qRyqsY/MjanLjsFbQ==}
     dev: true
 
   /@types/normalize-package-data/2.4.0:
@@ -2001,6 +2001,7 @@ packages:
 
   /encoding/0.1.12:
     resolution: {integrity: sha1-U4tm8+5izRq1HsMjgp0flIDHS+s=}
+    requiresBuild: true
     dependencies:
       iconv-lite: 0.4.24
     dev: true
@@ -2277,6 +2278,7 @@ packages:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5327,6 +5329,7 @@ packages:
     resolution: {integrity: sha512-imog1WIsi9Yb56yRt5TfYVxGmnWs3WSGU73ieSOlMVFwhJCA9W8fqFFMMj4kgDqiS/80LGdsYnWL7O9UcjEBlg==}
     engines: {node: '>=0.8.0'}
     hasBin: true
+    requiresBuild: true
     dependencies:
       commander: 2.19.0
       source-map: 0.6.1
