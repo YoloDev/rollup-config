@@ -14,7 +14,7 @@ importers:
       '@yolodev/rollup-config-typescript': 0.2.1
       builtin-modules: 3.2.0
       lerna: 4.0.0
-      np: 7.5.0
+      np: 7.6.1
       rimraf: 3.0.2
       rollup: 2.57.0
       rollup-plugin-typescript2: 0.30.0
@@ -30,7 +30,7 @@ importers:
       '@yolodev/rollup-config-typescript': link:packages/typescript
       builtin-modules: 3.2.0
       lerna: 4.0.0
-      np: 7.5.0
+      np: 7.6.1
       rimraf: 3.0.2
       rollup: 2.57.0
       rollup-plugin-typescript2: 0.30.0_rollup@2.57.0+typescript@4.4.3
@@ -1704,7 +1704,7 @@ packages:
       git-remote-origin-url: 2.0.0
       git-semver-tags: 4.1.1
       lodash: 4.17.20
-      normalize-package-data: 3.0.0
+      normalize-package-data: 3.0.2
       q: 1.5.1
       read-pkg: 3.0.0
       read-pkg-up: 3.0.0
@@ -3131,7 +3131,7 @@ packages:
     resolution: {integrity: sha512-2RwYXRfZAB1x/9udKpZmqEzSqNd7ouBRU52jyG14/xG8EF+O9A62d7/XVR3iABEQHf1iYhkm0Oq9iXjrL3tsXA==}
     engines: {node: '>=10'}
     dependencies:
-      normalize-package-data: 3.0.0
+      normalize-package-data: 3.0.2
       npm-package-arg: 8.1.0
       npm-registry-fetch: 9.0.0
       semver: 7.3.4
@@ -3405,7 +3405,7 @@ packages:
       decamelize: 1.2.0
       loud-rejection: 1.6.0
       map-obj: 1.0.1
-      minimist: 1.2.0
+      minimist: 1.2.5
       normalize-package-data: 2.5.0
       object-assign: 4.1.1
       read-pkg-up: 1.0.1
@@ -3504,10 +3504,6 @@ packages:
 
   /minimist/0.0.8:
     resolution: {integrity: sha1-hX/Kv8M5fSYluCKCYuhqp6ARsF0=}
-    dev: true
-
-  /minimist/1.2.0:
-    resolution: {integrity: sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ=}
     dev: true
 
   /minimist/1.2.5:
@@ -3719,16 +3715,6 @@ packages:
       validate-npm-package-license: 3.0.4
     dev: true
 
-  /normalize-package-data/3.0.0:
-    resolution: {integrity: sha512-6lUjEI0d3v6kFrtgA/lOx4zHCWULXsFNIjHolnZCKCTLA6m/G625cdn3O7eNmT0iD3jfo6HZ9cdImGZwf21prw==}
-    engines: {node: '>=10'}
-    dependencies:
-      hosted-git-info: 3.0.7
-      resolve: 1.20.0
-      semver: 7.3.4
-      validate-npm-package-license: 3.0.4
-    dev: true
-
   /normalize-package-data/3.0.2:
     resolution: {integrity: sha512-6CdZocmfGaKnIHPVFhJJZ3GuR8SsLKvDANFp47Jmy51aKIr8akjAWTSxtpI+MBgBFdSMRyo4hMpDlT6dTffgZg==}
     engines: {node: '>=10'}
@@ -3748,8 +3734,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /np/7.5.0:
-    resolution: {integrity: sha512-CdpgqtO6JpDKJjQ2gueY0jnbz6APWA9wFXSwPv5bXg4seSBibHqQ8JyWxYlS8YRfVbpeDtj582wcAWTlfy5qNA==}
+  /np/7.6.1:
+    resolution: {integrity: sha512-EHr5PtMPzNmkM/trnWQWTKAogJnVP1RzTFfIyvPK2COvLN6Vqut4gFXuWNng15xuqnTgmUPzKYbpQAZsYR+Dkw==}
     engines: {git: '>=2.11.0', node: '>=10', npm: '>=6.8.0', yarn: '>=1.7.0'}
     hasBin: true
     dependencies:
@@ -4457,7 +4443,7 @@ packages:
     dependencies:
       glob: 7.1.6
       json-parse-even-better-errors: 2.3.1
-      normalize-package-data: 3.0.0
+      normalize-package-data: 3.0.2
       npm-normalize-package-bin: 1.0.1
     dev: true
 
@@ -5078,7 +5064,7 @@ packages:
     hasBin: true
     dependencies:
       duplexer: 0.1.1
-      minimist: 1.2.0
+      minimist: 1.2.5
       through: 2.3.8
     dev: true
 
