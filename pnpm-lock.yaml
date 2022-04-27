@@ -5,7 +5,7 @@ importers:
   .:
     specifiers:
       '@lerna/project': 4.0.0
-      '@types/node': 16.11.28
+      '@types/node': 16.11.31
       '@types/npm-package-arg': 6.1.1
       '@types/read-pkg-up': 3.0.1
       '@yolodev/rollup-config-core': 0.3.0
@@ -21,7 +21,7 @@ importers:
       typescript: 4.4.3
     devDependencies:
       '@lerna/project': 4.0.0
-      '@types/node': 16.11.28
+      '@types/node': 16.11.31
       '@types/npm-package-arg': 6.1.1
       '@types/read-pkg-up': 3.0.1
       '@yolodev/rollup-config-core': link:packages/core
@@ -977,7 +977,7 @@ packages:
     resolution: {integrity: sha512-jHs9OECOiZxuEzxMZcXmqrEO8GYraHF+UzNVH2ACYh8e/Y7YoT+hUf9ldvVd6zIvWv4p3NdxbQ0xx3ku5BnSiA==}
     dependencies:
       '@octokit/openapi-types': 2.2.0
-      '@types/node': 16.11.28
+      '@types/node': 16.11.31
     dev: true
 
   /@rollup/pluginutils/4.1.0_rollup@2.57.0:
@@ -1049,7 +1049,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.0
       '@types/keyv': 3.1.1
-      '@types/node': 16.11.28
+      '@types/node': 16.11.31
       '@types/responselike': 1.0.0
     dev: true
 
@@ -1060,7 +1060,7 @@ packages:
   /@types/keyv/3.1.1:
     resolution: {integrity: sha512-MPtoySlAZQ37VoLaPcTHCu1RWJ4llDkULYZIzOYxlhxBqYPB0RsRlmMU0R6tahtFe27mIdkHV+551ZWV4PLmVw==}
     dependencies:
-      '@types/node': 16.11.28
+      '@types/node': 16.11.31
     dev: true
 
   /@types/minimatch/3.0.3:
@@ -1071,8 +1071,8 @@ packages:
     resolution: {integrity: sha512-fZQQafSREFyuZcdWFAExYjBiCL7AUCdgsk80iO0q4yihYYdcIiH28CcuPTGFgLOCC8RlW49GSQxdHwZP+I7CNg==}
     dev: true
 
-  /@types/node/16.11.28:
-    resolution: {integrity: sha512-l/y1ZZpWqevemVQmk0Q1TPohlJTul7u9ysq3bw6xlRDO8z+98JBI6gp4JS0OK8YkWUdYxnJU35H4vOzuiOFIag==}
+  /@types/node/16.11.31:
+    resolution: {integrity: sha512-wh/d0pcu/Ie2mqTIqh4tjd0mLAB4JWxOjHQtLN20HS7sjMHiV4Afr+90hITTyZcxowwha5wjv32jGEn1zkEFMg==}
     dev: true
 
   /@types/normalize-package-data/2.4.0:
@@ -1094,7 +1094,7 @@ packages:
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 16.11.28
+      '@types/node': 16.11.31
     dev: true
 
   /JSONStream/1.3.5:
