@@ -5,7 +5,7 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@lerna/project": "4.0.0",
+    "@lerna/project": "6.4.1",
     "@types/node": "16.11.31",
     "@types/npm-package-arg": "6.1.1",
     "@types/read-pkg-up": "3.0.1",
@@ -14,7 +14,7 @@
     "@yolodev/rollup-config-lerna": "0.3.1",
     "@yolodev/rollup-config-typescript": "0.2.1",
     "builtin-modules": "3.2.0",
-    "lerna": "4.0.0",
+    "lerna": "7.1.5",
     "np": "7.6.1",
     "rimraf": "3.0.2",
     "rollup": "2.57.0",
